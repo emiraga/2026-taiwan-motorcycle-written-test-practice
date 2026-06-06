@@ -38,4 +38,4 @@ export type FilterMode =
   | "lastIncorrect"
   | "incorrectEver";
 
-export type SortMode = "sequence" | "leastAnswered";
+export type SortMode = "sequence" | "leastAnswered" | "random";
