@@ -1,7 +1,7 @@
 import { useEffect, useMemo, useState } from "react";
 
 import type { FilterMode, Question, QuestionBank, SortMode } from "@/types";
-import { BANKS, DEFAULT_BANK } from "@/lib/banks";
+import { DEFAULT_BANK } from "@/lib/banks";
 import {
   isLastIncorrect,
   isUnanswered,
@@ -13,17 +13,9 @@ import { useProgress } from "@/hooks/useProgress";
 import { exportFileName, mergeProgress, parseProgress } from "@/lib/storage";
 import { Controls } from "@/components/Controls";
 import { QuestionCard } from "@/components/QuestionCard";
-
-function Stat({ label, value }: { label: string; value: string | number }) {
-  return (
-    <div className="rounded-xl border border-gray-200 bg-white px-4 py-3 shadow-sm">
-      <div className="text-2xl font-bold text-gray-900">{value}</div>
-      <div className="text-xs font-medium uppercase tracking-wide text-gray-400">
-        {label}
-      </div>
-    </div>
-  );
-}
+import { BankSelector } from "@/components/BankSelector";
+import { StatsBar } from "@/components/StatsBar";
+import { QuestionNav } from "@/components/QuestionNav";
 
 function App() {
   const [bank, setBank] = useState<string>(DEFAULT_BANK);
@@ -195,29 +187,11 @@ function App() {
     <div className="min-h-screen bg-gray-50">
       <div className="mx-auto max-w-3xl px-4 py-8">
         <header className="mb-6">
-          <label className="mt-2 flex flex-col gap-1">
-            <span className="text-xs font-semibold uppercase tracking-wide text-gray-400">
-              Question bank
-            </span>
-            <select
-              className="w-full max-w-md rounded-lg border border-gray-300 bg-white px-3 py-2 text-sm font-medium text-gray-700 shadow-sm focus:border-blue-400 focus:outline-none focus:ring-2 focus:ring-blue-200 sm:w-auto"
-              value={bank}
-              onChange={(e) => setBank(e.target.value)}
-            >
-              {BANKS.map((b) => (
-                <option key={b.id} value={b.id}>
-                  {b.label}
-                </option>
-              ))}
-            </select>
-          </label>
+          <BankSelector bank={bank} onBankChange={setBank} />
         </header>
 
-        <div className="mb-6 grid grid-cols-2 gap-3 sm:grid-cols-4">
-          <Stat label="Total" value={stats.total} />
-          <Stat label="Answered" value={stats.answered} />
-          <Stat label="Correct now" value={stats.correctNow} />
-          <Stat label="Missed ever" value={stats.missed} />
+        <div className="mb-6">
+          <StatsBar stats={stats} />
         </div>
 
         <div className="mb-6">
@@ -248,30 +222,13 @@ function App() {
           </p>
         ) : (
           <>
-            <div className="mb-3 flex items-center justify-between gap-3">
-              <button
-                type="button"
-                onClick={goPrev}
-                disabled={safeIndex === 0}
-                className="rounded-lg border border-gray-300 bg-white px-4 py-2 text-sm font-medium text-gray-700 shadow-sm transition-colors hover:bg-gray-50 disabled:cursor-not-allowed disabled:opacity-40"
-              >
-                ← Previous
-              </button>
-              <span className="text-sm font-medium text-gray-500">
-                Question{" "}
-                <span className="font-semibold text-gray-800">
-                  {safeIndex + 1}
-                </span>{" "}
-                of {filtered.length}
-              </span>
-              <button
-                type="button"
-                onClick={goNext}
-                disabled={isLast}
-                className="rounded-lg border border-gray-300 bg-white px-4 py-2 text-sm font-medium text-gray-700 shadow-sm transition-colors hover:bg-gray-50 disabled:cursor-not-allowed disabled:opacity-40"
-              >
-                Next →
-              </button>
+            <div className="mb-3">
+              <QuestionNav
+                position={safeIndex}
+                total={filtered.length}
+                onPrev={goPrev}
+                onNext={goNext}
+              />
             </div>
 
             <ul>
