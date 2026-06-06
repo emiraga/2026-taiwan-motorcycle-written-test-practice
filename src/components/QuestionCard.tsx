@@ -205,6 +205,10 @@ export function QuestionCard({
           key={question.video_file}
           src={`/${question.video_file}`}
           controls
+          autoPlay
+          muted
+          loop
+          playsInline
           preload="metadata"
           className="mb-3 max-h-80 w-full rounded-lg border border-gray-100 bg-black object-contain"
         />

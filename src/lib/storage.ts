@@ -1,7 +1,21 @@
 import type { Attempt, BankProgress, QuestionProgress } from "@/types";
+import { BANKS, DEFAULT_BANK } from "@/lib/banks";
 
 function storageKey(bank: string): string {
   return `qbank:${bank}`;
+}
+
+const LAST_BANK_KEY = "qbank:lastBank";
+
+/** The most recently selected bank, or DEFAULT_BANK if none/invalid is stored. */
+export function loadLastBank(): string {
+  const stored = localStorage.getItem(LAST_BANK_KEY);
+  if (stored && BANKS.some((b) => b.id === stored)) return stored;
+  return DEFAULT_BANK;
+}
+
+export function saveLastBank(bank: string): void {
+  localStorage.setItem(LAST_BANK_KEY, bank);
 }
 
 function emptyProgress(bank: string): BankProgress {

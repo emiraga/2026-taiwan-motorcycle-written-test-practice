@@ -1,7 +1,6 @@
 import { useEffect, useMemo, useState } from "react";
 
 import type { FilterMode, Question, QuestionBank, SortMode } from "@/types";
-import { DEFAULT_BANK } from "@/lib/banks";
 import {
   isLastIncorrect,
   isUnanswered,
@@ -11,7 +10,13 @@ import {
 } from "@/lib/progress";
 import { useProgress } from "@/hooks/useProgress";
 import { useKeyboardShortcuts } from "@/hooks/useKeyboardShortcuts";
-import { exportFileName, mergeProgress, parseProgress } from "@/lib/storage";
+import {
+  exportFileName,
+  loadLastBank,
+  mergeProgress,
+  parseProgress,
+  saveLastBank,
+} from "@/lib/storage";
 import { Controls } from "@/components/Controls";
 import { QuestionCard } from "@/components/QuestionCard";
 import { BankSelector } from "@/components/BankSelector";
@@ -20,7 +25,7 @@ import { StatsOverlay } from "@/components/StatsOverlay";
 import { QuestionNav } from "@/components/QuestionNav";
 
 function App() {
-  const [bank, setBank] = useState<string>(DEFAULT_BANK);
+  const [bank, setBank] = useState<string>(loadLastBank);
   const [questions, setQuestions] = useState<Question[] | null>(null);
   const [error, setError] = useState<string | null>(null);
   const [filter, setFilter] = useState<FilterMode>("all");
@@ -60,6 +65,7 @@ function App() {
   const [lastBank, setLastBank] = useState(bank);
   if (bank !== lastBank) {
     setLastBank(bank);
+    saveLastBank(bank);
     setQuestions(null);
     setError(null);
     setIndex(0);
