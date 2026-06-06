@@ -10,6 +10,7 @@ import {
   wasEverIncorrect,
 } from "@/lib/progress";
 import { useProgress } from "@/hooks/useProgress";
+import { exportFileName, mergeProgress, parseProgress } from "@/lib/storage";
 import { Controls } from "@/components/Controls";
 import { QuestionCard } from "@/components/QuestionCard";
 
@@ -32,7 +33,32 @@ function App() {
   const [sort, setSort] = useState<SortMode>("sequence");
   const [index, setIndex] = useState(0);
 
-  const { progress, recordAttempt, resetQuestion, resetAll } = useProgress(bank);
+  const { progress, recordAttempt, resetQuestion, resetAll, replaceProgress } =
+    useProgress(bank);
+
+  const handleExport = () => {
+    const json = JSON.stringify(progress, null, 2);
+    const blob = new Blob([json], { type: "application/json" });
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement("a");
+    a.href = url;
+    a.download = exportFileName(bank);
+    document.body.appendChild(a);
+    a.click();
+    a.remove();
+    URL.revokeObjectURL(url);
+  };
+
+  const handleImport = async (file: File) => {
+    try {
+      const incoming = parseProgress(await file.text());
+      const merged = mergeProgress(progress, incoming);
+      replaceProgress(merged);
+      window.alert("Import complete.");
+    } catch (err) {
+      window.alert(err instanceof Error ? err.message : String(err));
+    }
+  };
 
   // Reset the view to a loading state immediately when the bank changes
   // (adjust state during render, as recommended over an effect).
@@ -57,7 +83,8 @@ function App() {
         if (!cancelled) setQuestions(loaded.questions);
       })
       .catch((err: unknown) => {
-        if (!cancelled) setError(err instanceof Error ? err.message : String(err));
+        if (!cancelled)
+          setError(err instanceof Error ? err.message : String(err));
       });
     return () => {
       cancelled = true;
@@ -122,7 +149,8 @@ function App() {
   }
 
   // Keep the current index within bounds as the filtered list shrinks/grows.
-  const safeIndex = filtered.length === 0 ? 0 : Math.min(index, filtered.length - 1);
+  const safeIndex =
+    filtered.length === 0 ? 0 : Math.min(index, filtered.length - 1);
 
   const stats = useMemo(() => {
     if (!questions) return { total: 0, answered: 0, correctNow: 0, missed: 0 };
@@ -160,17 +188,13 @@ function App() {
 
   const current = filtered[safeIndex];
   const isLast = safeIndex >= filtered.length - 1;
-  const goNext = () =>
-    setIndex(Math.min(safeIndex + 1, filtered.length - 1));
+  const goNext = () => setIndex(Math.min(safeIndex + 1, filtered.length - 1));
   const goPrev = () => setIndex(Math.max(safeIndex - 1, 0));
 
   return (
     <div className="min-h-screen bg-gray-50">
       <div className="mx-auto max-w-3xl px-4 py-8">
         <header className="mb-6">
-          <h1 className="text-3xl font-extrabold tracking-tight text-gray-900">
-            Motorcycle Written Test
-          </h1>
           <label className="mt-2 flex flex-col gap-1">
             <span className="text-xs font-semibold uppercase tracking-wide text-gray-400">
               Question bank
@@ -213,6 +237,8 @@ function App() {
                 resetAll();
               }
             }}
+            onExport={handleExport}
+            onImport={handleImport}
           />
         </div>
 

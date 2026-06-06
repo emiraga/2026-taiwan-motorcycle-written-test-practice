@@ -12,6 +12,7 @@ export interface UseProgress {
   ) => void;
   resetQuestion: (questionNumber: number) => void;
   resetAll: () => void;
+  replaceProgress: (next: BankProgress) => void;
 }
 
 export function useProgress(bank: string): UseProgress {
@@ -64,5 +65,15 @@ export function useProgress(bank: string): UseProgress {
     setProgress((prev) => ({ bank: prev.bank, answers: {} }));
   }, []);
 
-  return { progress, recordAttempt, resetQuestion, resetAll };
+  const replaceProgress = useCallback((next: BankProgress) => {
+    setProgress(next);
+  }, []);
+
+  return {
+    progress,
+    recordAttempt,
+    resetQuestion,
+    resetAll,
+    replaceProgress,
+  };
 }

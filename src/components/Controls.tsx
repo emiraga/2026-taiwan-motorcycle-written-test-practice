@@ -1,3 +1,5 @@
+import { useRef } from "react";
+
 import type { FilterMode, SortMode } from "@/types";
 
 interface ControlsProps {
@@ -8,6 +10,8 @@ interface ControlsProps {
   shown: number;
   total: number;
   onResetAll: () => void;
+  onExport: () => void;
+  onImport: (file: File) => void;
 }
 
 const FILTER_OPTIONS: { value: FilterMode; label: string }[] = [
@@ -26,6 +30,9 @@ const SORT_OPTIONS: { value: SortMode; label: string }[] = [
 const selectClass =
   "rounded-lg border border-gray-300 bg-white px-3 py-2 text-sm font-medium text-gray-700 shadow-sm focus:border-blue-400 focus:outline-none focus:ring-2 focus:ring-blue-200";
 
+const buttonClass =
+  "rounded-lg border px-3 py-2 text-sm font-medium shadow-sm transition-colors";
+
 export function Controls({
   filter,
   sort,
@@ -34,7 +41,11 @@ export function Controls({
   shown,
   total,
   onResetAll,
+  onExport,
+  onImport,
 }: ControlsProps) {
+  const fileInputRef = useRef<HTMLInputElement>(null);
+
   return (
     <div className="flex flex-wrap items-end gap-4 rounded-xl border border-gray-200 bg-white p-4 shadow-sm">
       <label className="flex flex-col gap-1">
@@ -78,8 +89,36 @@ export function Controls({
 
       <button
         type="button"
+        onClick={onExport}
+        className={`${buttonClass} border-gray-300 bg-white text-gray-700 hover:bg-gray-50`}
+      >
+        Export
+      </button>
+
+      <input
+        ref={fileInputRef}
+        type="file"
+        accept="application/json,.json"
+        className="hidden"
+        onChange={(e) => {
+          const file = e.target.files?.[0];
+          if (file) onImport(file);
+          // Reset so selecting the same file again still fires onChange.
+          e.target.value = "";
+        }}
+      />
+      <button
+        type="button"
+        onClick={() => fileInputRef.current?.click()}
+        className={`${buttonClass} border-gray-300 bg-white text-gray-700 hover:bg-gray-50`}
+      >
+        Import
+      </button>
+
+      <button
+        type="button"
         onClick={onResetAll}
-        className="rounded-lg border border-red-200 bg-red-50 px-3 py-2 text-sm font-medium text-red-600 transition-colors hover:bg-red-100"
+        className={`${buttonClass} border-red-200 bg-red-50 text-red-600 hover:bg-red-100`}
       >
         Reset all progress
       </button>
