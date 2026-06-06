@@ -25,9 +25,9 @@ from pathlib import Path
 import pdfplumber
 
 ROOT = Path(__file__).parent
-PDF_PATH = ROOT / "Written_Test_Question_Bank.pdf"
-OUT_PATH = ROOT / "Written_Test_Question_Bank.json"
-PIC_DIR = ROOT / "pictures"
+PDF_PATH = ROOT / "public" / "Written_Test_Question_Bank.pdf"
+OUT_PATH = ROOT / "public" / "Written_Test_Question_Bank.json"
+PIC_DIR = ROOT / "public" / "pictures"
 RENDER_DPI = 220
 PIC_PADDING = 2  # pixels of padding around the cropped picture
 
