@@ -5,7 +5,6 @@ import { cn } from "@/lib/utils";
 import {
   isLastIncorrect,
   isUnanswered,
-  lastAttempt,
   timesAnswered,
   wasEverIncorrect,
 } from "@/lib/progress";
@@ -111,13 +110,12 @@ export function QuestionCard({
   onReset,
   onNext,
 }: QuestionCardProps) {
-  const last = lastAttempt(progress);
-  // Start revealed if this question has already been answered, showing the
-  // most recent attempt. "Answer again" un-reveals it for a fresh attempt.
-  const [revealed, setRevealed] = useState(last !== undefined);
-  const [selected, setSelected] = useState<AnswerValue | null>(
-    last?.answer ?? null,
-  );
+  // Always start un-revealed, even for previously answered questions, so the
+  // user can re-answer for practice without seeing their prior answer. The
+  // history badges above still reflect past attempts. Answering reveals the
+  // result (and auto-advances on correct) just like the first time.
+  const [revealed, setRevealed] = useState(false);
+  const [selected, setSelected] = useState<AnswerValue | null>(null);
   // Set when the user answers correctly this session, triggering the 2-second
   // auto-advance. Not set when revisiting an already-answered question, so we
   // never auto-skip questions the user navigates to.
