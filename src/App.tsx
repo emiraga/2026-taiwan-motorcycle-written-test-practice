@@ -16,6 +16,7 @@ import { Controls } from "@/components/Controls";
 import { QuestionCard } from "@/components/QuestionCard";
 import { BankSelector } from "@/components/BankSelector";
 import { StatsBar } from "@/components/StatsBar";
+import { StatsOverlay } from "@/components/StatsOverlay";
 import { QuestionNav } from "@/components/QuestionNav";
 
 function App() {
@@ -25,6 +26,7 @@ function App() {
   const [filter, setFilter] = useState<FilterMode>("all");
   const [sort, setSort] = useState<SortMode>("leastAnswered");
   const [index, setIndex] = useState(0);
+  const [showStats, setShowStats] = useState(false);
 
   const { progress, recordAttempt, resetQuestion, resetAll, replaceProgress } =
     useProgress(bank);
@@ -253,7 +255,25 @@ function App() {
             onImport={handleImport}
           />
         </div>
+
+        <div className="mb-6 flex justify-center">
+          <button
+            type="button"
+            onClick={() => setShowStats(true)}
+            className="rounded-lg border border-gray-300 bg-white px-4 py-2 text-sm font-medium text-gray-700 shadow-sm transition-colors hover:bg-gray-50"
+          >
+            Show stats
+          </button>
+        </div>
       </div>
+
+      {showStats && (
+        <StatsOverlay
+          questions={questions}
+          progress={progress}
+          onClose={() => setShowStats(false)}
+        />
+      )}
     </div>
   );
 }
