@@ -29,6 +29,58 @@ function StatusBadge({ progress }: { progress?: QuestionProgress }) {
   return <Badge className="bg-green-100 text-green-700">Last: correct</Badge>;
 }
 
+/**
+ * Build a prompt asking an AI to explain the question. Pictures are ignored
+ * since they can't be passed along to the chat.
+ */
+function buildExplainPrompt(question: Question): string {
+  const intro =
+    "I am practicing Taiwanese motorcycle driving exam questions. Explain this one to me:";
+  const options = question.options
+    .map((option, idx) => `${idx + 1}. ${option}`)
+    .join("\n");
+  const correctText = question.options[question.correct - 1] ?? "";
+  return `${intro}\n\n${question.question}\n\n${options}\n\nCorrect answer: ${question.correct}. ${correctText}`;
+}
+
+const explainButtonClass =
+  "rounded-lg border border-gray-300 bg-white px-3 py-1.5 text-xs font-medium text-gray-600 transition-colors hover:bg-gray-50";
+
+/** Claude natively prefills the prompt via the `?q=` query parameter. */
+function ClaudeExplainLink({ prompt }: { prompt: string }) {
+  return (
+    <a
+      href={`https://claude.ai/new?q=${encodeURIComponent(prompt)}`}
+      target="_blank"
+      rel="noopener noreferrer"
+      className={explainButtonClass}
+    >
+      Claude
+    </a>
+  );
+}
+
+/**
+ * Gemini has no URL-prefill mechanism, so we copy the prompt to the clipboard
+ * and open Gemini in a new tab for the user to paste.
+ */
+function GeminiExplainButton({ prompt }: { prompt: string }) {
+  const [copied, setCopied] = useState(false);
+
+  const handleClick = async () => {
+    await navigator.clipboard.writeText(prompt);
+    setCopied(true);
+    setTimeout(() => setCopied(false), 3000);
+    window.open("https://gemini.google.com/app", "_blank", "noopener");
+  };
+
+  return (
+    <button type="button" onClick={handleClick} className={explainButtonClass}>
+      {copied ? "Copied — paste in Gemini" : "Gemini"}
+    </button>
+  );
+}
+
 function Badge({
   children,
   className,
@@ -103,6 +155,8 @@ export function QuestionCard({
 
   const selectedCorrect =
     selected !== null && selected !== "idk" && selected === question.correct;
+
+  const explainPrompt = buildExplainPrompt(question);
 
   return (
     <li className="rounded-xl border border-gray-200 bg-white p-5 shadow-sm">
@@ -188,6 +242,16 @@ export function QuestionCard({
           );
         })}
       </div>
+
+      {revealed && (
+        <div className="mt-4 flex items-center gap-2">
+          <span className="text-xs font-medium text-gray-400">
+            Explain with AI:
+          </span>
+          <ClaudeExplainLink prompt={explainPrompt} />
+          <GeminiExplainButton prompt={explainPrompt} />
+        </div>
+      )}
 
       <div className="mt-4 flex items-center gap-3">
         {!revealed ? (

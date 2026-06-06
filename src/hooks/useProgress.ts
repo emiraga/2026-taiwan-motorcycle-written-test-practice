@@ -1,7 +1,7 @@
 import { useCallback, useEffect, useState } from "react";
 
 import type { AnswerValue, BankProgress } from "@/types";
-import { BANK_NAME, loadProgress, saveProgress } from "@/lib/storage";
+import { loadProgress, saveProgress } from "@/lib/storage";
 
 export interface UseProgress {
   progress: BankProgress;
@@ -14,8 +14,18 @@ export interface UseProgress {
   resetAll: () => void;
 }
 
-export function useProgress(): UseProgress {
-  const [progress, setProgress] = useState<BankProgress>(() => loadProgress());
+export function useProgress(bank: string): UseProgress {
+  const [progress, setProgress] = useState<BankProgress>(() =>
+    loadProgress(bank),
+  );
+
+  // Reload progress whenever the selected bank changes (adjust state during
+  // render, as recommended over an effect).
+  const [lastBank, setLastBank] = useState(bank);
+  if (bank !== lastBank) {
+    setLastBank(bank);
+    setProgress(loadProgress(bank));
+  }
 
   useEffect(() => {
     saveProgress(progress);
@@ -51,7 +61,7 @@ export function useProgress(): UseProgress {
   }, []);
 
   const resetAll = useCallback(() => {
-    setProgress({ bank: BANK_NAME, answers: {} });
+    setProgress((prev) => ({ bank: prev.bank, answers: {} }));
   }, []);
 
   return { progress, recordAttempt, resetQuestion, resetAll };

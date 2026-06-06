@@ -1,0 +1,15 @@
+/** A selectable question bank. `id` is the JSON file name under /public. */
+export interface BankInfo {
+  id: string;
+  label: string;
+}
+
+/**
+ * The question banks the user can choose from. Add new entries here as more
+ * banks become available; the UI picks them up automatically.
+ */
+export const BANKS: BankInfo[] = [
+  { id: "Written_Test_Question_Bank", label: "Written Test Question Bank" },
+];
+
+export const DEFAULT_BANK = BANKS[0].id;

@@ -1,7 +1,7 @@
 import { useEffect, useMemo, useState } from "react";
 
 import type { FilterMode, Question, QuestionBank, SortMode } from "@/types";
-import { BANK_NAME } from "@/lib/storage";
+import { BANKS, DEFAULT_BANK } from "@/lib/banks";
 import {
   isLastIncorrect,
   isUnanswered,
@@ -25,25 +25,36 @@ function Stat({ label, value }: { label: string; value: string | number }) {
 }
 
 function App() {
+  const [bank, setBank] = useState<string>(DEFAULT_BANK);
   const [questions, setQuestions] = useState<Question[] | null>(null);
   const [error, setError] = useState<string | null>(null);
   const [filter, setFilter] = useState<FilterMode>("all");
   const [sort, setSort] = useState<SortMode>("sequence");
   const [index, setIndex] = useState(0);
 
-  const { progress, recordAttempt, resetQuestion, resetAll } = useProgress();
+  const { progress, recordAttempt, resetQuestion, resetAll } = useProgress(bank);
+
+  // Reset the view to a loading state immediately when the bank changes
+  // (adjust state during render, as recommended over an effect).
+  const [lastBank, setLastBank] = useState(bank);
+  if (bank !== lastBank) {
+    setLastBank(bank);
+    setQuestions(null);
+    setError(null);
+    setIndex(0);
+  }
 
   useEffect(() => {
     let cancelled = false;
-    fetch(`/${BANK_NAME}.json`)
+    fetch(`/${bank}.json`)
       .then((res) => {
         if (!res.ok) {
           throw new Error(`Failed to load question bank: HTTP ${res.status}`);
         }
         return res.json() as Promise<QuestionBank>;
       })
-      .then((bank) => {
-        if (!cancelled) setQuestions(bank.questions);
+      .then((loaded) => {
+        if (!cancelled) setQuestions(loaded.questions);
       })
       .catch((err: unknown) => {
         if (!cancelled) setError(err instanceof Error ? err.message : String(err));
@@ -51,9 +62,14 @@ function App() {
     return () => {
       cancelled = true;
     };
-  }, []);
+  }, [bank]);
 
-  const filtered = useMemo(() => {
+  // Build the filtered + sorted question list from the current progress. This
+  // is snapshotted into state (below) rather than derived live, so answering a
+  // question doesn't immediately drop it out of a filtered view. The 2-second
+  // auto-advance after a correct answer in the "Unanswered" filter relies on
+  // the question staying mounted until the timer fires.
+  const buildList = (): Question[] => {
     if (!questions) return [];
     const list = questions.filter((q) => {
       const p = progress.answers[q.number];
@@ -78,14 +94,20 @@ function App() {
       });
     }
     return list;
-  }, [questions, progress, filter, sort]);
+  };
 
-  // Jump back to the first question whenever the filter/sort view changes
-  // (adjust state during render, as recommended over an effect).
+  // Re-snapshot the list (and jump back to the first question) only when the
+  // view inputs change — the filter, the sort, or the loaded question set — not
+  // on every progress update. Adjust state during render, as recommended over
+  // an effect.
+  const [filtered, setFiltered] = useState<Question[]>(buildList);
   const view = `${filter}|${sort}`;
   const [lastView, setLastView] = useState(view);
-  if (view !== lastView) {
+  const [lastQuestions, setLastQuestions] = useState(questions);
+  if (view !== lastView || questions !== lastQuestions) {
     setLastView(view);
+    setLastQuestions(questions);
+    setFiltered(buildList());
     setIndex(0);
   }
 
@@ -139,10 +161,22 @@ function App() {
           <h1 className="text-3xl font-extrabold tracking-tight text-gray-900">
             Motorcycle Written Test
           </h1>
-          <p className="mt-1 text-sm text-gray-500">
-            Question bank:{" "}
-            <span className="font-medium text-gray-700">{BANK_NAME}</span>
-          </p>
+          <label className="mt-2 flex flex-col gap-1">
+            <span className="text-xs font-semibold uppercase tracking-wide text-gray-400">
+              Question bank
+            </span>
+            <select
+              className="w-full max-w-md rounded-lg border border-gray-300 bg-white px-3 py-2 text-sm font-medium text-gray-700 shadow-sm focus:border-blue-400 focus:outline-none focus:ring-2 focus:ring-blue-200 sm:w-auto"
+              value={bank}
+              onChange={(e) => setBank(e.target.value)}
+            >
+              {BANKS.map((b) => (
+                <option key={b.id} value={b.id}>
+                  {b.label}
+                </option>
+              ))}
+            </select>
+          </label>
         </header>
 
         <div className="mb-6 grid grid-cols-2 gap-3 sm:grid-cols-4">

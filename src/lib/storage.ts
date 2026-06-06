@@ -1,35 +1,35 @@
 import type { BankProgress } from "@/types";
 
-/** The question bank we are currently studying. */
-export const BANK_NAME = "Written_Test_Question_Bank";
-
-const STORAGE_KEY = `qbank:${BANK_NAME}`;
-
-function emptyProgress(): BankProgress {
-  return { bank: BANK_NAME, answers: {} };
+function storageKey(bank: string): string {
+  return `qbank:${bank}`;
 }
 
-export function loadProgress(): BankProgress {
-  const raw = localStorage.getItem(STORAGE_KEY);
-  if (!raw) return emptyProgress();
+function emptyProgress(bank: string): BankProgress {
+  return { bank, answers: {} };
+}
+
+export function loadProgress(bank: string): BankProgress {
+  const key = storageKey(bank);
+  const raw = localStorage.getItem(key);
+  if (!raw) return emptyProgress(bank);
 
   let parsed: BankProgress;
   try {
     parsed = JSON.parse(raw) as BankProgress;
   } catch (cause) {
-    throw new Error(`Corrupted progress in localStorage key "${STORAGE_KEY}"`, {
+    throw new Error(`Corrupted progress in localStorage key "${key}"`, {
       cause,
     });
   }
 
-  if (parsed.bank !== BANK_NAME || typeof parsed.answers !== "object") {
+  if (parsed.bank !== bank || typeof parsed.answers !== "object") {
     throw new Error(
-      `Stored progress in "${STORAGE_KEY}" does not match bank "${BANK_NAME}"`,
+      `Stored progress in "${key}" does not match bank "${bank}"`,
     );
   }
   return parsed;
 }
 
 export function saveProgress(progress: BankProgress): void {
-  localStorage.setItem(STORAGE_KEY, JSON.stringify(progress));
+  localStorage.setItem(storageKey(progress.bank), JSON.stringify(progress));
 }
