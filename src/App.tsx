@@ -230,8 +230,17 @@ function App() {
           <BankSelector bank={bank} onBankChange={setBank} />
         </header>
 
-        <div className="mb-6">
-          <StatsBar stats={stats} />
+        <div className="mb-6 flex items-stretch gap-3">
+          <div className="flex-1">
+            <StatsBar stats={stats} />
+          </div>
+          <button
+            type="button"
+            onClick={() => setShowStats(true)}
+            className="shrink-0 rounded-lg border border-gray-300 bg-white px-4 py-2 text-sm font-medium text-gray-700 shadow-sm transition-colors hover:bg-gray-50"
+          >
+            More Stats
+          </button>
         </div>
 
         <div className="mb-6">
@@ -254,16 +263,6 @@ function App() {
             onExport={handleExport}
             onImport={handleImport}
           />
-        </div>
-
-        <div className="mb-6 flex justify-center">
-          <button
-            type="button"
-            onClick={() => setShowStats(true)}
-            className="rounded-lg border border-gray-300 bg-white px-4 py-2 text-sm font-medium text-gray-700 shadow-sm transition-colors hover:bg-gray-50"
-          >
-            Show stats
-          </button>
         </div>
       </div>
 
