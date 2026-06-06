@@ -23,7 +23,7 @@ function App() {
   const [questions, setQuestions] = useState<Question[] | null>(null);
   const [error, setError] = useState<string | null>(null);
   const [filter, setFilter] = useState<FilterMode>("all");
-  const [sort, setSort] = useState<SortMode>("sequence");
+  const [sort, setSort] = useState<SortMode>("leastAnswered");
   const [index, setIndex] = useState(0);
 
   const { progress, recordAttempt, resetQuestion, resetAll, replaceProgress } =
@@ -195,36 +195,6 @@ function App() {
   return (
     <div className="min-h-screen bg-gray-50">
       <div className="mx-auto max-w-3xl px-4 py-8">
-        <header className="mb-6">
-          <BankSelector bank={bank} onBankChange={setBank} />
-        </header>
-
-        <div className="mb-6">
-          <StatsBar stats={stats} />
-        </div>
-
-        <div className="mb-6">
-          <Controls
-            filter={filter}
-            sort={sort}
-            onFilterChange={setFilter}
-            onSortChange={setSort}
-            shown={filtered.length}
-            total={questions.length}
-            onResetAll={() => {
-              if (
-                window.confirm(
-                  "Reset all saved answers? This cannot be undone.",
-                )
-              ) {
-                resetAll();
-              }
-            }}
-            onExport={handleExport}
-            onImport={handleImport}
-          />
-        </div>
-
         {filtered.length === 0 || !current ? (
           <p className="rounded-xl border border-gray-200 bg-white p-8 text-center text-gray-500">
             No questions match this filter. 🎉
@@ -254,6 +224,35 @@ function App() {
             </ul>
           </>
         )}
+        <header className="mb-6">
+          <BankSelector bank={bank} onBankChange={setBank} />
+        </header>
+
+        <div className="mb-6">
+          <StatsBar stats={stats} />
+        </div>
+
+        <div className="mb-6">
+          <Controls
+            filter={filter}
+            sort={sort}
+            onFilterChange={setFilter}
+            onSortChange={setSort}
+            shown={filtered.length}
+            total={questions.length}
+            onResetAll={() => {
+              if (
+                window.confirm(
+                  "Reset all saved answers? This cannot be undone.",
+                )
+              ) {
+                resetAll();
+              }
+            }}
+            onExport={handleExport}
+            onImport={handleImport}
+          />
+        </div>
       </div>
     </div>
   );
