@@ -41,6 +41,28 @@ def clean_text(text: str | None) -> str:
     return re.sub(r"\s+", " ", text).strip()
 
 
+# Manual overrides for questions whose option text is broken in the source PDF.
+# `broken_content` must match the cleaned raw content exactly before the override
+# is applied — that way running this script against a *different* PDF (with a
+# different question bank) won't silently substitute the wrong text.
+QUESTION_OVERRIDES: dict[int, dict] = {
+    600: {
+        "broken_content": (
+            "On a road where left turns are prohibited, is it allowed to make "
+            "a U-turn? (1) Yes, but you must watch not allowed. Violators will "
+            "be fined and given 1 demerit point. (3) Yes, but you must turn on "
+            "the left turn signal first."
+        ),
+        "question": "On a road where left turns are prohibited, is it allowed to make a U-turn?",
+        "options": [
+            "Yes, but you must watch for oncoming traffic and yield to pedestrians.",
+            "No, it is not allowed. Violators will be fined and given 1 demerit point.",
+            "Yes, but you must turn on the left turn signal first.",
+        ],
+        "correct": 2,
+    },
+}
+
 OPTION_SPLIT = re.compile(r"\s*\(\s*([123])\s*\)\s*")
 
 
@@ -212,6 +234,26 @@ def main() -> None:
     questions: list[dict] = []
     malformed: list[dict] = []
     for rq in raw_questions:
+        override = QUESTION_OVERRIDES.get(rq["number"])
+        if override is not None:
+            if rq["content"] != override["broken_content"]:
+                raise ValueError(
+                    f"Q{rq['number']}: override broken_content does not match "
+                    f"this PDF. Override was written for a different question "
+                    f"bank — remove it from QUESTION_OVERRIDES or update it.\n"
+                    f"  expected: {override['broken_content']!r}\n"
+                    f"  actual:   {rq['content']!r}"
+                )
+            entry = {
+                "number": rq["number"],
+                "question": override["question"],
+                "options": list(override["options"]),
+                "correct": override["correct"],
+            }
+            if rq["pictures"]:
+                entry["pictures"] = rq["pictures"]
+            questions.append(entry)
+            continue
         try:
             prompt, options = split_question(rq["content"], rq["number"])
         except ValueError as exc:
