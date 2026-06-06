@@ -110,6 +110,26 @@ def main() -> None:
     # Pending images attributed to whatever question continues on the next page.
     pending_images: list[tuple[int, tuple[float, float, float, float]]] = []
 
+    def attach_continuation_images(imgs, page, page_idx) -> None:
+        """Attach continuation-row images to the previous question.
+
+        A question whose row sits at the bottom of a page can spill its
+        picture onto the top of the next page, landing in a continuation
+        row that belongs to the previous question. If no question exists
+        yet, defer the images until we know which question they belong to.
+        """
+        if not imgs:
+            return
+        if raw_questions:
+            target = raw_questions[-1]
+            for bbox in imgs:
+                target["pictures"].append(
+                    _save_image(page, bbox, target["number"], len(target["pictures"]) + 1)
+                )
+        else:
+            for bbox in imgs:
+                pending_images.append((page_idx, bbox))
+
     with pdfplumber.open(PDF_PATH) as pdf:
         for page_idx, page in enumerate(pdf.pages, start=1):
             tables = page.find_tables()
@@ -157,13 +177,17 @@ def main() -> None:
             # Walk rows in order, gluing continuation rows into the previous
             # question and rendering any images they contain.
             for i, (_, _, row_cells) in enumerate(page_rows):
+                imgs = row_images[i]
                 norm = normalize_row(row_cells)
                 if norm is None:
+                    # An entirely empty row still carries a continuation image
+                    # when a question's row sits at the bottom of the previous
+                    # page and its picture spills onto the top of this one.
+                    attach_continuation_images(imgs, page, page_idx)
                     continue
                 no_clean = clean_text(norm[0])
                 ans_clean = clean_text(norm[1])
                 content_clean = clean_text(norm[2])
-                imgs = row_images[i]
 
                 if no_clean.isdigit() and ans_clean in {"1", "2", "3"}:
                     number = int(no_clean)
@@ -204,16 +228,7 @@ def main() -> None:
                     if content_clean and raw_questions:
                         raw_questions[-1]["content"] += " " + content_clean
                     # Images in this continuation row belong to the previous Q.
-                    if raw_questions:
-                        target = raw_questions[-1]
-                        for bbox in imgs:
-                            target["pictures"].append(
-                                _save_image(page, bbox, target["number"], len(target["pictures"]) + 1)
-                            )
-                    else:
-                        # Defer until we know which question this becomes.
-                        for bbox in imgs:
-                            pending_images.append((page_idx, bbox))
+                    attach_continuation_images(imgs, page, page_idx)
                     continue
 
                 # Skip recognizable header / cover rows.

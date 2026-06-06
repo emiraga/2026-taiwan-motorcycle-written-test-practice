@@ -642,7 +642,8 @@
         "Wharf or pier embankment,",
         "Watch for falling rocks on the right"
       ],
-      "correct": 1
+      "correct": 1,
+      "pictures": ["pictures/q070_1.png"]
     },
     {
       "number": 71,
@@ -3716,7 +3717,8 @@
       "number": 405,
       "question": "",
       "options": ["Cliff on the right side", "Wharf, embankment", "Danger"],
-      "correct": 2
+      "correct": 2,
+      "pictures": ["pictures/q405_1.png"]
     },
     {
       "number": 406,
@@ -3806,7 +3808,8 @@
         "County road route number",
         "National road route number"
       ],
-      "correct": 1
+      "correct": 1,
+      "pictures": ["pictures/q414_1.png"]
     },
     {
       "number": 415,
@@ -3896,7 +3899,8 @@
         "Road construction sign",
         "Vehicle breakdown sign"
       ],
-      "correct": 3
+      "correct": 3,
+      "pictures": ["pictures/q423_1.png"]
     },
     {
       "number": 424,
@@ -3971,7 +3975,8 @@
       "number": 431,
       "question": "",
       "options": ["MRT Station", "Railway Station", "High-Speed Rail Station"],
-      "correct": 2
+      "correct": 2,
+      "pictures": ["pictures/q431_1.png"]
     },
     {
       "number": 432,
@@ -4043,7 +4048,8 @@
         "No large passenger buses allowed",
         "No Mass Rapid Transit system vehicles allowed"
       ],
-      "correct": 2
+      "correct": 2,
+      "pictures": ["pictures/q438_1.png"]
     },
     {
       "number": 439,
@@ -4104,7 +4110,8 @@
       "number": 444,
       "question": "A cyclist's hand signal indicates an upcoming",
       "options": ["right turn", "left turn", "deceleration or stop"],
-      "correct": 1
+      "correct": 1,
+      "pictures": ["pictures/q444_1.png"]
     },
     {
       "number": 445,
@@ -4791,7 +4798,8 @@
         "Watch for Pedestrians",
         "No Pedestrian Crossing"
       ],
-      "correct": 2
+      "correct": 2,
+      "pictures": ["pictures/q515_1.png"]
     },
     {
       "number": 516,
@@ -4958,7 +4966,8 @@
         "The vehicle coming from the left is proceeding straight",
         "The vehicle coming from the right is proceeding straight"
       ],
-      "correct": 2
+      "correct": 2,
+      "pictures": ["pictures/q531_1.png"]
     },
     {
       "number": 532,
@@ -5470,7 +5479,8 @@
         "No right turn",
         "No left turn and no straight ahead"
       ],
-      "correct": 3
+      "correct": 3,
+      "pictures": ["pictures/q584_1.png"]
     },
     {
       "number": 585,
@@ -6847,7 +6857,8 @@
       "number": 730,
       "question": "",
       "options": ["Right lane closed", "Left lane closed", "Vehicle detour"],
-      "correct": 1
+      "correct": 1,
+      "pictures": ["pictures/q730_1.png"]
     },
     {
       "number": 731,
@@ -6991,7 +7002,8 @@
         "Direction and distance indication",
         "Place name and direction indication"
       ],
-      "correct": 2
+      "correct": 2,
+      "pictures": ["pictures/q745_1.png"]
     },
     {
       "number": 746,
