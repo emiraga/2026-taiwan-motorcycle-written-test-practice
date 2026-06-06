@@ -10,6 +10,7 @@ export interface BankInfo {
  */
 export const BANKS: BankInfo[] = [
   { id: "Written_Test_Question_Bank", label: "Written Test Question Bank" },
+  { id: "Hazard_Perception_Multiple", label: "Hazard Perception" },
 ];
 
 export const DEFAULT_BANK = BANKS[0].id;

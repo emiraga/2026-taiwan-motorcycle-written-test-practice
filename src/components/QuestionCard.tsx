@@ -200,6 +200,16 @@ export function QuestionCard({
         />
       ))}
 
+      {question.video_file && (
+        <video
+          key={question.video_file}
+          src={`/${question.video_file}`}
+          controls
+          preload="metadata"
+          className="mb-3 max-h-80 w-full rounded-lg border border-gray-100 bg-black object-contain"
+        />
+      )}
+
       <p className="mb-4 text-base font-medium text-gray-900">
         {question.question || (
           <span className="text-gray-500 italic">

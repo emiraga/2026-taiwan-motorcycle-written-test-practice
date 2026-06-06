@@ -5,6 +5,8 @@ export interface Question {
   /** 1-based index of the correct option (1, 2, or 3). */
   correct: number;
   pictures?: string[];
+  /** Path (under /public) to a video clip illustrating the question. */
+  video_file?: string;
 }
 
 export interface QuestionBank {
