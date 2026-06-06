@@ -10,6 +10,7 @@ import {
   wasEverIncorrect,
 } from "@/lib/progress";
 import { useProgress } from "@/hooks/useProgress";
+import { useKeyboardShortcuts } from "@/hooks/useKeyboardShortcuts";
 import { exportFileName, mergeProgress, parseProgress } from "@/lib/storage";
 import { Controls } from "@/components/Controls";
 import { QuestionCard } from "@/components/QuestionCard";
@@ -144,6 +145,16 @@ function App() {
   const safeIndex =
     filtered.length === 0 ? 0 : Math.min(index, filtered.length - 1);
 
+  const goNext = () => setIndex(Math.min(safeIndex + 1, filtered.length - 1));
+  const goPrev = () => setIndex(Math.max(safeIndex - 1, 0));
+
+  // Arrow Right / Left navigate between questions, mirroring the Next/Previous
+  // buttons.
+  useKeyboardShortcuts({
+    ArrowRight: goNext,
+    ArrowLeft: goPrev,
+  });
+
   const stats = useMemo(() => {
     if (!questions) return { total: 0, answered: 0, correctNow: 0, missed: 0 };
     let answered = 0;
@@ -180,8 +191,6 @@ function App() {
 
   const current = filtered[safeIndex];
   const isLast = safeIndex >= filtered.length - 1;
-  const goNext = () => setIndex(Math.min(safeIndex + 1, filtered.length - 1));
-  const goPrev = () => setIndex(Math.max(safeIndex - 1, 0));
 
   return (
     <div className="min-h-screen bg-gray-50">

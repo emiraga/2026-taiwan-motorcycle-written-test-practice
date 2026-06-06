@@ -9,6 +9,10 @@ import {
   timesAnswered,
   wasEverIncorrect,
 } from "@/lib/progress";
+import {
+  useKeyboardShortcuts,
+  type KeyHandlers,
+} from "@/hooks/useKeyboardShortcuts";
 
 interface QuestionCardProps {
   question: Question;
@@ -152,6 +156,17 @@ export function QuestionCard({
     setSelected(null);
     setAutoAdvance(false);
   };
+
+  // Pressing "1"/"2"/"3"… answers with that option, matching the option
+  // buttons (which are disabled once the answer is revealed).
+  const answerShortcuts: KeyHandlers = {};
+  question.options.forEach((_, idx) => {
+    const optionNumber = idx + 1;
+    answerShortcuts[String(optionNumber)] = () => {
+      if (!revealed) answer(optionNumber);
+    };
+  });
+  useKeyboardShortcuts(answerShortcuts);
 
   const selectedCorrect =
     selected !== null && selected !== "idk" && selected === question.correct;
