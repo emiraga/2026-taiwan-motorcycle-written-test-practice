@@ -1,3 +1,3 @@
 use pnpm instead of npm
 
-use "pnpm build && pnpm lint" to build and lint
+use unsandboxed "pnpm build && pnpm lint && pnpm test" to build and lint and test
