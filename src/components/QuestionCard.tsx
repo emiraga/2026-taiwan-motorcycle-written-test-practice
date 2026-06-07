@@ -130,7 +130,7 @@ export function QuestionCard({
 
   useEffect(() => {
     if (!autoAdvance) return;
-    const id = setTimeout(() => onNextRef.current?.(), 2000);
+    const id = setTimeout(() => onNextRef.current?.(), 1000);
     return () => clearTimeout(id);
   }, [autoAdvance]);
 
@@ -164,6 +164,11 @@ export function QuestionCard({
       if (!revealed) answer(optionNumber);
     };
   });
+  // "4" is the "I don't know" button (questions have at most 3 options, so it
+  // never collides with an option shortcut).
+  answerShortcuts["4"] = () => {
+    if (!revealed) answer("idk");
+  };
   useKeyboardShortcuts(answerShortcuts);
 
   const selectedCorrect =
@@ -327,7 +332,10 @@ export function QuestionCard({
               <button
                 type="button"
                 onClick={onNext}
-                autoFocus
+                // Focus without scrolling: the default autoFocus (or focus())
+                // scrolls this button into view, which causes a jarring jump
+                // when answering via the 1/2/3 keyboard shortcuts.
+                ref={(el) => el?.focus({ preventScroll: true })}
                 className="rounded-lg bg-blue-600 px-4 py-2 text-sm font-semibold text-white shadow-sm transition-colors hover:bg-blue-700"
               >
                 Next →

@@ -157,10 +157,11 @@ function App() {
   const goPrev = () => setIndex(Math.max(safeIndex - 1, 0));
 
   // Arrow Right / Left navigate between questions, mirroring the Next/Previous
-  // buttons.
+  // buttons. Space also advances, like Next.
   useKeyboardShortcuts({
     ArrowRight: goNext,
     ArrowLeft: goPrev,
+    " ": goNext,
   });
 
   const stats = useMemo(() => {
