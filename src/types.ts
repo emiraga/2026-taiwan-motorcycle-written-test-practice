@@ -41,3 +41,6 @@ export type FilterMode =
   | "incorrectEver";
 
 export type SortMode = "sequence" | "leastAnswered" | "random";
+
+/** Tie-breaker applied within the primary sort. */
+export type SecondarySortMode = "sequence" | "random";

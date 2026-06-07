@@ -1,6 +1,12 @@
 import { useEffect, useMemo, useState } from "react";
 
-import type { FilterMode, Question, QuestionBank, SortMode } from "@/types";
+import type {
+  FilterMode,
+  Question,
+  QuestionBank,
+  SecondarySortMode,
+  SortMode,
+} from "@/types";
 import {
   isLastIncorrect,
   isUnanswered,
@@ -30,6 +36,8 @@ function App() {
   const [error, setError] = useState<string | null>(null);
   const [filter, setFilter] = useState<FilterMode>("all");
   const [sort, setSort] = useState<SortMode>("leastAnswered");
+  const [secondarySort, setSecondarySort] =
+    useState<SecondarySortMode>("random");
   const [index, setIndex] = useState(0);
   const [showStats, setShowStats] = useState(false);
 
@@ -113,25 +121,32 @@ function App() {
       }
     });
 
+    // A random key per question, fixed for this snapshot. Used as the random
+    // tie-breaker and as the primary key for the "random" sort, so both only
+    // reshuffle when the view is re-snapshotted, not on every progress update.
+    const randomKey = new Map<number, number>();
+    for (const q of list) randomKey.set(q.number, Math.random());
+
+    const secondaryCompare = (a: Question, b: Question) =>
+      secondarySort === "random"
+        ? randomKey.get(a.number)! - randomKey.get(b.number)!
+        : a.number - b.number;
+
+    if (sort === "random") {
+      return [...list].sort(
+        (a, b) => randomKey.get(a.number)! - randomKey.get(b.number)!,
+      );
+    }
     if (sort === "leastAnswered") {
       return [...list].sort((a, b) => {
         const diff =
           timesAnswered(progress.answers[a.number]) -
           timesAnswered(progress.answers[b.number]);
-        return diff !== 0 ? diff : a.number - b.number;
+        return diff !== 0 ? diff : secondaryCompare(a, b);
       });
     }
-    if (sort === "random") {
-      // Fisher-Yates shuffle. Reshuffles whenever the view is re-snapshotted
-      // (i.e. when the sort is (re)selected), not on every progress update.
-      const shuffled = [...list];
-      for (let i = shuffled.length - 1; i > 0; i--) {
-        const j = Math.floor(Math.random() * (i + 1));
-        [shuffled[i], shuffled[j]] = [shuffled[j], shuffled[i]];
-      }
-      return shuffled;
-    }
-    return list;
+    // "sequence": numbers are unique, so the secondary tie-breaker never applies.
+    return [...list].sort((a, b) => a.number - b.number);
   };
 
   // Re-snapshot the list (and jump back to the first question) only when the
@@ -139,7 +154,7 @@ function App() {
   // on every progress update. Adjust state during render, as recommended over
   // an effect.
   const [filtered, setFiltered] = useState<Question[]>(buildList);
-  const view = `${filter}|${sort}`;
+  const view = `${filter}|${sort}|${secondarySort}`;
   const [lastView, setLastView] = useState(view);
   const [lastQuestions, setLastQuestions] = useState(questions);
   if (view !== lastView || questions !== lastQuestions) {
@@ -254,8 +269,10 @@ function App() {
           <Controls
             filter={filter}
             sort={sort}
+            secondarySort={secondarySort}
             onFilterChange={setFilter}
             onSortChange={setSort}
+            onSecondarySortChange={setSecondarySort}
             shown={filtered.length}
             total={questions.length}
             onResetAll={() => {

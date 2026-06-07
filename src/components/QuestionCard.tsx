@@ -211,7 +211,6 @@ export function QuestionCard({
           src={`/${question.video_file}`}
           controls
           autoPlay
-          muted
           loop
           playsInline
           preload="metadata"
@@ -292,7 +291,7 @@ export function QuestionCard({
             onClick={() => answer("idk")}
             className="rounded-lg border border-gray-300 bg-gray-50 px-4 py-2 text-sm font-medium text-gray-600 transition-colors hover:bg-gray-100"
           >
-            I don't know
+            4. &nbsp;I don't know
           </button>
         ) : (
           <>
@@ -310,7 +309,7 @@ export function QuestionCard({
                 ? "Marked “I don't know” (counted as incorrect)"
                 : selectedCorrect
                   ? autoAdvance
-                    ? "Correct! Next question in 2s…"
+                    ? "Correct! Next question in 1s…"
                     : "Correct!"
                   : "Incorrect"}
             </span>

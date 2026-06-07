@@ -1,12 +1,14 @@
 import { useRef } from "react";
 
-import type { FilterMode, SortMode } from "@/types";
+import type { FilterMode, SecondarySortMode, SortMode } from "@/types";
 
 interface ControlsProps {
   filter: FilterMode;
   sort: SortMode;
+  secondarySort: SecondarySortMode;
   onFilterChange: (filter: FilterMode) => void;
   onSortChange: (sort: SortMode) => void;
+  onSecondarySortChange: (sort: SecondarySortMode) => void;
   shown: number;
   total: number;
   onResetAll: () => void;
@@ -27,6 +29,11 @@ const SORT_OPTIONS: { value: SortMode; label: string }[] = [
   { value: "random", label: "Random" },
 ];
 
+const SECONDARY_SORT_OPTIONS: { value: SecondarySortMode; label: string }[] = [
+  { value: "random", label: "Random" },
+  { value: "sequence", label: "Sequence number" },
+];
+
 const selectClass =
   "rounded-lg border border-gray-300 bg-white px-3 py-2 text-sm font-medium text-gray-700 shadow-sm focus:border-blue-400 focus:outline-none focus:ring-2 focus:ring-blue-200";
 
@@ -36,8 +43,10 @@ const buttonClass =
 export function Controls({
   filter,
   sort,
+  secondarySort,
   onFilterChange,
   onSortChange,
+  onSecondarySortChange,
   shown,
   total,
   onResetAll,
@@ -58,23 +67,6 @@ export function Controls({
           onChange={(e) => onFilterChange(e.target.value as FilterMode)}
         >
           {FILTER_OPTIONS.map((o) => (
-            <option key={o.value} value={o.value}>
-              {o.label}
-            </option>
-          ))}
-        </select>
-      </label>
-
-      <label className="flex flex-col gap-1">
-        <span className="text-xs font-semibold uppercase tracking-wide text-gray-400">
-          Sort by
-        </span>
-        <select
-          className={selectClass}
-          value={sort}
-          onChange={(e) => onSortChange(e.target.value as SortMode)}
-        >
-          {SORT_OPTIONS.map((o) => (
             <option key={o.value} value={o.value}>
               {o.label}
             </option>
@@ -114,6 +106,42 @@ export function Controls({
       >
         Import
       </button>
+
+      <label className="flex flex-col gap-1">
+        <span className="text-xs font-semibold uppercase tracking-wide text-gray-400">
+          Sort by
+        </span>
+        <select
+          className={selectClass}
+          value={sort}
+          onChange={(e) => onSortChange(e.target.value as SortMode)}
+        >
+          {SORT_OPTIONS.map((o) => (
+            <option key={o.value} value={o.value}>
+              {o.label}
+            </option>
+          ))}
+        </select>
+      </label>
+
+      <label className="flex flex-col gap-1">
+        <span className="text-xs font-semibold uppercase tracking-wide text-gray-400">
+          Then by
+        </span>
+        <select
+          className={selectClass}
+          value={secondarySort}
+          onChange={(e) =>
+            onSecondarySortChange(e.target.value as SecondarySortMode)
+          }
+        >
+          {SECONDARY_SORT_OPTIONS.map((o) => (
+            <option key={o.value} value={o.value}>
+              {o.label}
+            </option>
+          ))}
+        </select>
+      </label>
 
       <button
         type="button"
