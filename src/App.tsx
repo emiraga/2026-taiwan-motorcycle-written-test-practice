@@ -14,6 +14,7 @@ import {
   timesAnswered,
   wasEverIncorrect,
 } from "@/lib/progress";
+import { srsDue } from "@/lib/srs";
 import { useProgress } from "@/hooks/useProgress";
 import { useKeyboardShortcuts } from "@/hooks/useKeyboardShortcuts";
 import {
@@ -142,6 +143,16 @@ function App() {
         const diff =
           timesAnswered(progress.answers[a.number]) -
           timesAnswered(progress.answers[b.number]);
+        return diff !== 0 ? diff : secondaryCompare(a, b);
+      });
+    }
+    if (sort === "spacedRepetition") {
+      // Most-overdue (smallest due timestamp) first; new cards sort ahead of
+      // all reviewed ones. Ties fall through to the secondary tie-breaker.
+      return [...list].sort((a, b) => {
+        const diff =
+          srsDue(progress.answers[a.number]) -
+          srsDue(progress.answers[b.number]);
         return diff !== 0 ? diff : secondaryCompare(a, b);
       });
     }

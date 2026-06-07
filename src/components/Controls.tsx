@@ -26,6 +26,7 @@ const FILTER_OPTIONS: { value: FilterMode; label: string }[] = [
 const SORT_OPTIONS: { value: SortMode; label: string }[] = [
   { value: "sequence", label: "Sequence number" },
   { value: "leastAnswered", label: "Least number of times answered" },
+  { value: "spacedRepetition", label: "Spaced repetition (due first)" },
   { value: "random", label: "Random" },
 ];
 

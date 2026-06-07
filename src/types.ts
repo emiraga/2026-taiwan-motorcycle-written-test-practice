@@ -40,7 +40,11 @@ export type FilterMode =
   | "lastIncorrect"
   | "incorrectEver";
 
-export type SortMode = "sequence" | "leastAnswered" | "random";
+export type SortMode =
+  | "sequence"
+  | "leastAnswered"
+  | "spacedRepetition"
+  | "random";
 
 /** Tie-breaker applied within the primary sort. */
 export type SecondarySortMode = "sequence" | "random";
