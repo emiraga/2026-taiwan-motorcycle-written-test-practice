@@ -38,7 +38,8 @@ export type FilterMode =
   | "all"
   | "unanswered"
   | "lastIncorrect"
-  | "incorrectEver";
+  | "incorrectEver"
+  | "srsDue";
 
 export type SortMode =
   | "sequence"

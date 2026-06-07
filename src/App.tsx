@@ -14,7 +14,7 @@ import {
   timesAnswered,
   wasEverIncorrect,
 } from "@/lib/progress";
-import { srsDue } from "@/lib/srs";
+import { isSrsDue, srsUrgency } from "@/lib/srs";
 import { useProgress } from "@/hooks/useProgress";
 import { useKeyboardShortcuts } from "@/hooks/useKeyboardShortcuts";
 import {
@@ -108,6 +108,9 @@ function App() {
   // the question staying mounted until the timer fires.
   const buildList = (): Question[] => {
     if (!questions) return [];
+    // One timestamp for the whole snapshot, shared by the SRS filter and sort
+    // so a card's "due" status and its urgency ranking stay consistent.
+    const now = Date.now();
     const list = questions.filter((q) => {
       const p = progress.answers[q.number];
       switch (filter) {
@@ -117,6 +120,8 @@ function App() {
           return isLastIncorrect(p);
         case "incorrectEver":
           return wasEverIncorrect(p);
+        case "srsDue":
+          return isSrsDue(p, now);
         default:
           return true;
       }
@@ -147,13 +152,15 @@ function App() {
       });
     }
     if (sort === "spacedRepetition") {
-      // Most-overdue (smallest due timestamp) first; new cards sort ahead of
-      // all reviewed ones. Ties fall through to the secondary tie-breaker.
+      // Overdue-ratio order: most-decayed first, continuing smoothly past the
+      // due queue into not-yet-due cards (see srsUrgency's doc comment for why
+      // this special key is used instead of a plain due date). `now` is fixed
+      // for this snapshot so the ranking is stable while the comparator runs.
       return [...list].sort((a, b) => {
-        const diff =
-          srsDue(progress.answers[a.number]) -
-          srsDue(progress.answers[b.number]);
-        return diff !== 0 ? diff : secondaryCompare(a, b);
+        const ua = srsUrgency(progress.answers[a.number], now);
+        const ub = srsUrgency(progress.answers[b.number], now);
+        // Descending by urgency; `!==` guard avoids Infinity − Infinity = NaN.
+        return ua !== ub ? ub - ua : secondaryCompare(a, b);
       });
     }
     // "sequence": numbers are unique, so the secondary tie-breaker never applies.

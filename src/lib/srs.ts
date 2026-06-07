@@ -123,11 +123,60 @@ export function computeSrsState(progress?: QuestionProgress): SrsState | null {
 }
 
 /**
- * Sort key for spaced-repetition ordering: the timestamp at which a card is
- * due. New (never-reviewed) cards return 0 so they sort ahead of everything,
- * prioritising unseen material; among themselves they tie and fall through to
- * the caller's secondary sort.
+ * Sort key for spaced-repetition ordering, expressed as an "overdue ratio":
+ *
+ *     urgency = (now - lastReviewed) / intervalDays
+ *
+ * ── SPECIAL PURPOSE — read before reusing this ──────────────────────────────
+ * This is deliberately NOT the plain `due` timestamp a normal SRS queue uses.
+ * A due-date sort only really distinguishes "due" from "not due" by a calendar
+ * cutoff; once your due cards run out it gives a poor ordering for *continuing*
+ * to study ahead of schedule. The overdue ratio instead measures how far a
+ * card has decayed *as a fraction of its own interval*, which stays meaningful
+ * for cards that are not yet due:
+ *
+ *     ratio >= 1  -> at or past its scheduled review (due / overdue)
+ *     ratio  < 1  -> not yet due; closer to 1 means more decayed
+ *
+ * Sorting by this value DESCENDING (most-decayed first) therefore yields one
+ * smooth ranking across both due and not-due cards — exactly what you want when
+ * you've cleared the due queue but still want to drill the next-weakest
+ * material. It is a cheap stand-in for FSRS's "retrievability" (the probability
+ * you'd recall the card right now); we don't model a true forgetting curve,
+ * just the linear fraction of the interval elapsed.
+ *
+ * Two caller contracts:
+ *   1. Pass a single `now` captured once per sort, so the ranking is stable
+ *      while the comparator runs.
+ *   2. Never-reviewed ("new") cards return Infinity so they rank first. Because
+ *      two Infinities are not ordered, compare with `a !== b ? b - a : tie`
+ *      rather than a bare `b - a` (Infinity − Infinity is NaN, which would
+ *      corrupt the sort).
+ * ────────────────────────────────────────────────────────────────────────────
  */
-export function srsDue(progress?: QuestionProgress): number {
-  return computeSrsState(progress)?.due ?? 0;
+export function srsUrgency(
+  progress: QuestionProgress | undefined,
+  now: number,
+): number {
+  const state = computeSrsState(progress);
+  if (state === null) return Infinity;
+  // Elapsed time is converted to days so numerator and denominator share units
+  // and the result is a true unitless ratio (1.0 == exactly due). intervalDays
+  // is always >= 1 for a reviewed card, so this never divides by 0.
+  const elapsedDays = (now - state.lastReviewed) / DAY_MS;
+  return elapsedDays / state.intervalDays;
+}
+
+/**
+ * Whether a card is due for review *now* under the SRS schedule. New
+ * (never-reviewed) cards count as due so they're never hidden from study.
+ * This is the boolean cutoff (`urgency >= 1`) that the "due" filter applies;
+ * the spaced-repetition *sort* instead ranks by the continuous urgency above.
+ */
+export function isSrsDue(
+  progress: QuestionProgress | undefined,
+  now: number,
+): boolean {
+  const state = computeSrsState(progress);
+  return state === null || now >= state.due;
 }

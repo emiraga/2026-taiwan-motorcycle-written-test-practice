@@ -21,6 +21,7 @@ const FILTER_OPTIONS: { value: FilterMode; label: string }[] = [
   { value: "unanswered", label: "Unanswered questions" },
   { value: "lastIncorrect", label: "Last answer incorrect" },
   { value: "incorrectEver", label: "Answered incorrect at any time" },
+  { value: "srsDue", label: "Due for review (spaced repetition)" },
 ];
 
 const SORT_OPTIONS: { value: SortMode; label: string }[] = [
