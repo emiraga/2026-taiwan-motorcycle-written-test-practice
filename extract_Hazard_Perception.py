@@ -150,7 +150,9 @@ def main() -> None:
         questions.append(entry)
 
     OUT_PATH.write_text(
-        json.dumps({"questions": questions}, ensure_ascii=False, indent=2)
+        json.dumps(
+            {"questions": questions}, ensure_ascii=False, separators=(",", ":")
+        )
     )
     with_files = sum(1 for q in questions if q.get("video_file"))
     with_urls = sum(1 for q in questions if q.get("video_url"))

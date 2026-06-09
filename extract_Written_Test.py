@@ -302,7 +302,9 @@ def main() -> None:
         questions.append(entry)
 
     OUT_PATH.write_text(
-        json.dumps({"questions": questions}, ensure_ascii=False, indent=2)
+        json.dumps(
+            {"questions": questions}, ensure_ascii=False, separators=(",", ":")
+        )
     )
     total_pictures = sum(len(q.get("pictures", [])) for q in questions)
     qs_with_pictures = sum(1 for q in questions if q.get("pictures"))
