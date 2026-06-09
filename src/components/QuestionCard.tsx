@@ -121,6 +121,16 @@ export function QuestionCard({
   // never auto-skip questions the user navigates to.
   const [autoAdvance, setAutoAdvance] = useState(false);
 
+  // True once the local <video> fails to load (e.g. the file is missing), so we
+  // can fall back to the embedded video_url iframe. Reset during render when the
+  // question's video changes (React's "adjust state on prop change" pattern).
+  const [videoFileFailed, setVideoFileFailed] = useState(false);
+  const [videoFileTried, setVideoFileTried] = useState(question.video_file);
+  if (videoFileTried !== question.video_file) {
+    setVideoFileTried(question.video_file);
+    setVideoFileFailed(false);
+  }
+
   // Keep the latest onNext in a ref so the timer effect depends only on
   // autoAdvance and never restarts the countdown on unrelated re-renders.
   const onNextRef = useRef(onNext);
@@ -205,7 +215,7 @@ export function QuestionCard({
         />
       ))}
 
-      {question.video_file && (
+      {question.video_file && !videoFileFailed && (
         <video
           key={question.video_file}
           src={`/${question.video_file}`}
@@ -214,7 +224,21 @@ export function QuestionCard({
           loop
           playsInline
           preload="metadata"
+          onError={() => setVideoFileFailed(true)}
           className="mb-3 max-h-80 w-full rounded-lg border border-gray-100 bg-black object-contain"
+        />
+      )}
+
+      {/* Fall back to the embedded URL when there is no local file, or the
+          local file failed to load (e.g. it's missing). */}
+      {(!question.video_file || videoFileFailed) && question.video_url && (
+        <iframe
+          key={question.video_url}
+          src={question.video_url}
+          title={`Video for question ${question.number}`}
+          allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+          allowFullScreen
+          className="mb-3 aspect-video w-full rounded-lg border border-gray-100 bg-black"
         />
       )}
 

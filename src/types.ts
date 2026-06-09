@@ -7,6 +7,11 @@ export interface Question {
   pictures?: string[];
   /** Path (under /public) to a video clip illustrating the question. */
   video_file?: string;
+  /**
+   * External video URL, embedded as an iframe. Used as a fallback when there is
+   * no `video_file`, or when the local file fails to load.
+   */
+  video_url?: string;
 }
 
 export interface QuestionBank {
