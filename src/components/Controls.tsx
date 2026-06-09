@@ -14,6 +14,7 @@ interface ControlsProps {
   onResetAll: () => void;
   onExport: () => void;
   onImport: (file: File) => void;
+  onSync: () => void;
 }
 
 const FILTER_OPTIONS: { value: FilterMode; label: string }[] = [
@@ -54,6 +55,7 @@ export function Controls({
   onResetAll,
   onExport,
   onImport,
+  onSync,
 }: ControlsProps) {
   const fileInputRef = useRef<HTMLInputElement>(null);
 
@@ -107,6 +109,14 @@ export function Controls({
         className={`${buttonClass} border-gray-300 bg-white text-gray-700 hover:bg-gray-50`}
       >
         Import
+      </button>
+
+      <button
+        type="button"
+        onClick={onSync}
+        className={`${buttonClass} border-blue-300 bg-blue-50 text-blue-700 hover:bg-blue-100`}
+      >
+        Sync
       </button>
 
       <label className="flex flex-col gap-1">

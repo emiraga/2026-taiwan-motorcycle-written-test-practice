@@ -1,0 +1,11 @@
+name = "motorcycle-driving-exam"
+compatibility_date = "2026-06-09"
+pages_build_output_dir = "dist"
+
+[[kv_namespaces]]
+binding = "motorcycle_exam_progress"
+id = "56935129a239487caaa8485e09a0cb09"
+
+# SYNC_SECRET (the shared passphrase) is NOT stored here. Set it as a secret:
+#   wrangler pages secret put SYNC_SECRET
+# and for local `wrangler pages dev`, put it in a gitignored .dev.vars file.

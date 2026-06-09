@@ -1,0 +1,16 @@
+{
+  "name": "Motorcycle Written Test",
+  "short_name": "Moto Test",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#f9fafb",
+  "theme_color": "#f9fafb",
+  "icons": [
+    {
+      "src": "/vite.svg",
+      "sizes": "any",
+      "type": "image/svg+xml",
+      "purpose": "any"
+    }
+  ]
+}

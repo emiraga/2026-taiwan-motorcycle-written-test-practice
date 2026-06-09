@@ -1,11 +1,27 @@
-import type { Attempt, BankProgress, QuestionProgress } from "@/types";
+import type { BankProgress } from "@/types";
 import { BANKS, DEFAULT_BANK } from "@/lib/banks";
+import { isBankProgress } from "@/lib/merge";
+
+// The pure, DOM-free progress helpers live in `merge.ts` so the Cloudflare
+// Pages Function can import them too. Re-exported here so existing callers that
+// import from `@/lib/storage` keep working.
+export { mergeProgress, parseProgress } from "@/lib/merge";
 
 function storageKey(bank: string): string {
   return `qbank:${bank}`;
 }
 
 const LAST_BANK_KEY = "qbank:lastBank";
+const SYNC_SECRET_KEY = "qbank:syncSecret";
+
+/** The shared sync passphrase for this device, or null if not yet set. */
+export function loadSyncSecret(): string | null {
+  return localStorage.getItem(SYNC_SECRET_KEY);
+}
+
+export function saveSyncSecret(secret: string): void {
+  localStorage.setItem(SYNC_SECRET_KEY, secret);
+}
 
 /** The most recently selected bank, or DEFAULT_BANK if none/invalid is stored. */
 export function loadLastBank(): string {
@@ -20,16 +36,6 @@ export function saveLastBank(bank: string): void {
 
 function emptyProgress(bank: string): BankProgress {
   return { bank, answers: {} };
-}
-
-function isBankProgress(value: unknown): value is BankProgress {
-  if (typeof value !== "object" || value === null) return false;
-  const v = value as Record<string, unknown>;
-  return (
-    typeof v.bank === "string" &&
-    typeof v.answers === "object" &&
-    v.answers !== null
-  );
 }
 
 export function loadProgress(bank: string): BankProgress {
@@ -56,67 +62,6 @@ export function loadProgress(bank: string): BankProgress {
 
 export function saveProgress(progress: BankProgress): void {
   localStorage.setItem(storageKey(progress.bank), JSON.stringify(progress));
-}
-
-/** Parse and validate a previously exported progress file. */
-export function parseProgress(raw: string): BankProgress {
-  let parsed: unknown;
-  try {
-    parsed = JSON.parse(raw);
-  } catch (cause) {
-    throw new Error("Import failed: file is not valid JSON", { cause });
-  }
-  if (!isBankProgress(parsed)) {
-    throw new Error(
-      "Import failed: file is not a valid progress export",
-    );
-  }
-  return parsed;
-}
-
-/** Uniquely identifies a single attempt, used to deduplicate on import. */
-function attemptKey(a: Attempt): string {
-  return `${a.timestamp}:${a.answer}:${a.correct}`;
-}
-
-/**
- * Merge `incoming` progress into `current`, deduplicating attempts so that
- * re-importing the same export is a no-op. Throws if the two refer to
- * different banks.
- */
-export function mergeProgress(
-  current: BankProgress,
-  incoming: BankProgress,
-): BankProgress {
-  if (incoming.bank !== current.bank) {
-    throw new Error(
-      `Import failed: file is for bank "${incoming.bank}", ` +
-        `but the current bank is "${current.bank}".`,
-    );
-  }
-
-  const answers: Record<number, QuestionProgress> = {};
-  for (const [num, qp] of Object.entries(current.answers)) {
-    answers[Number(num)] = { attempts: [...qp.attempts] };
-  }
-
-  for (const [num, qp] of Object.entries(incoming.answers)) {
-    const key = Number(num);
-    const existing = answers[key]?.attempts ?? [];
-    const seen = new Set(existing.map(attemptKey));
-    const merged = [...existing];
-    for (const a of qp.attempts) {
-      const k = attemptKey(a);
-      if (!seen.has(k)) {
-        seen.add(k);
-        merged.push(a);
-      }
-    }
-    merged.sort((x, y) => x.timestamp - y.timestamp);
-    answers[key] = { attempts: merged };
-  }
-
-  return { bank: current.bank, answers };
 }
 
 /** Builds an export file name: `<bank>_YYYY-MM-DD_HH-MM-SS.json`. */

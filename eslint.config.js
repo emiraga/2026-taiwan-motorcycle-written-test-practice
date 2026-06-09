@@ -38,4 +38,17 @@ export default [
       'react-compiler/react-compiler': 'error',
     },
   },
+  {
+    // Cloudflare Pages Functions run on the Workers runtime, not the browser,
+    // and use ambient Worker types (PagesFunction, KVNamespace). TypeScript
+    // checks these via functions/tsconfig.json; turn off no-undef here (it has
+    // no type info and would otherwise flag the Worker globals/types).
+    files: ['functions/**/*.ts'],
+    languageOptions: {
+      globals: { ...globals.worker, ...globals.node },
+    },
+    rules: {
+      'no-undef': 'off',
+    },
+  },
 ]

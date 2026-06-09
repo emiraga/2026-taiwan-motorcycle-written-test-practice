@@ -20,10 +20,13 @@ import { useKeyboardShortcuts } from "@/hooks/useKeyboardShortcuts";
 import {
   exportFileName,
   loadLastBank,
+  loadSyncSecret,
   mergeProgress,
   parseProgress,
   saveLastBank,
+  saveSyncSecret,
 } from "@/lib/storage";
+import { syncBank } from "@/lib/sync";
 import { Controls } from "@/components/Controls";
 import { QuestionCard } from "@/components/QuestionCard";
 import { BankSelector } from "@/components/BankSelector";
@@ -64,6 +67,22 @@ function App() {
       const merged = mergeProgress(progress, incoming);
       replaceProgress(merged);
       window.alert("Import complete.");
+    } catch (err) {
+      window.alert(err instanceof Error ? err.message : String(err));
+    }
+  };
+
+  const handleSync = async () => {
+    try {
+      let secret = loadSyncSecret();
+      if (!secret) {
+        secret = window.prompt("Enter the sync passphrase")?.trim() ?? "";
+        if (!secret) return;
+        saveSyncSecret(secret);
+      }
+      const merged = await syncBank(progress, secret);
+      replaceProgress(merged);
+      window.alert("Sync complete.");
     } catch (err) {
       window.alert(err instanceof Error ? err.message : String(err));
     }
@@ -304,6 +323,7 @@ function App() {
             }}
             onExport={handleExport}
             onImport={handleImport}
+            onSync={handleSync}
           />
         </div>
       </div>

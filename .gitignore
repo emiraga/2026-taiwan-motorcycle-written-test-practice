@@ -25,3 +25,7 @@ dist-ssr
 .vscode
 
 public/videos/*.mp4
+
+# Cloudflare / Wrangler
+.wrangler
+.dev.vars
