@@ -73,7 +73,7 @@
         "Vehicle curb weight"
       ],
       "correct": 1,
-      "pictures": ["pictures/q009_1.png"]
+      "pictures": ["pictures/q009_1.jpg"]
     },
     {
       "number": 10,
@@ -610,7 +610,7 @@
       "question": "",
       "options": ["Road surface bump,", "Slippery road,", "No overtaking"],
       "correct": 2,
-      "pictures": ["pictures/q067_1.png"]
+      "pictures": ["pictures/q067_1.jpg"]
     },
     {
       "number": 68,
@@ -621,7 +621,7 @@
         "Watch for falling rocks on the left"
       ],
       "correct": 3,
-      "pictures": ["pictures/q068_1.png"]
+      "pictures": ["pictures/q068_1.jpg"]
     },
     {
       "number": 69,
@@ -632,7 +632,7 @@
         "Hazardous road surface"
       ],
       "correct": 1,
-      "pictures": ["pictures/q069_1.png"]
+      "pictures": ["pictures/q069_1.jpg"]
     },
     {
       "number": 70,
@@ -643,21 +643,21 @@
         "Watch for falling rocks on the right"
       ],
       "correct": 1,
-      "pictures": ["pictures/q070_1.png"]
+      "pictures": ["pictures/q070_1.jpg"]
     },
     {
       "number": 71,
       "question": "",
       "options": ["Warning signal", "Danger", "Proceed slowly"],
       "correct": 2,
-      "pictures": ["pictures/q071_1.png"]
+      "pictures": ["pictures/q071_1.jpg"]
     },
     {
       "number": 72,
       "question": "",
       "options": ["Dead end", "Ambulance station", "Hospital"],
       "correct": 2,
-      "pictures": ["pictures/q072_1.png"]
+      "pictures": ["pictures/q072_1.jpg"]
     },
     {
       "number": 73,
@@ -1080,14 +1080,14 @@
       "question": "",
       "options": ["Intersection", "Dead end", "Ramp merging"],
       "correct": 3,
-      "pictures": ["pictures/q119_1.png"]
+      "pictures": ["pictures/q119_1.jpg"]
     },
     {
       "number": 120,
       "question": "",
       "options": ["Intersection", "Ramp merging", "Narrow bridge"],
       "correct": 2,
-      "pictures": ["pictures/q120_1.png"]
+      "pictures": ["pictures/q120_1.jpg"]
     },
     {
       "number": 121,
@@ -1990,7 +1990,7 @@
         "Vehicle height restriction"
       ],
       "correct": 1,
-      "pictures": ["pictures/q217_1.png"]
+      "pictures": ["pictures/q217_1.jpg"]
     },
     {
       "number": 218,
@@ -2001,7 +2001,7 @@
         "No entry for cars"
       ],
       "correct": 1,
-      "pictures": ["pictures/q218_1.png"]
+      "pictures": ["pictures/q218_1.jpg"]
     },
     {
       "number": 219,
@@ -2012,14 +2012,14 @@
         "No pedestrian crossing"
       ],
       "correct": 2,
-      "pictures": ["pictures/q219_1.png"]
+      "pictures": ["pictures/q219_1.jpg"]
     },
     {
       "number": 220,
       "question": "",
       "options": ["Stop and then proceed", "Stop for inspection", "No passage"],
       "correct": 2,
-      "pictures": ["pictures/q220_1.png"]
+      "pictures": ["pictures/q220_1.jpg"]
     },
     {
       "number": 221,
@@ -3718,21 +3718,21 @@
       "question": "",
       "options": ["Cliff on the right side", "Wharf, embankment", "Danger"],
       "correct": 2,
-      "pictures": ["pictures/q405_1.png"]
+      "pictures": ["pictures/q405_1.jpg"]
     },
     {
       "number": 406,
       "question": "",
       "options": ["Narrow road", "Tunnel", "Narrow bridge"],
       "correct": 2,
-      "pictures": ["pictures/q406_1.png"]
+      "pictures": ["pictures/q406_1.jpg"]
     },
     {
       "number": 407,
       "question": "",
       "options": ["No parking", "No temporary stopping", "No overtaking"],
       "correct": 1,
-      "pictures": ["pictures/q407_1.png"]
+      "pictures": ["pictures/q407_1.jpg"]
     },
     {
       "number": 408,
@@ -3743,7 +3743,7 @@
         "No vehicles allowed"
       ],
       "correct": 3,
-      "pictures": ["pictures/q408_1.png"]
+      "pictures": ["pictures/q408_1.jpg"]
     },
     {
       "number": 409,
@@ -3754,7 +3754,7 @@
         "No vehicles with four or more wheels allowed"
       ],
       "correct": 3,
-      "pictures": ["pictures/q409_1.png"]
+      "pictures": ["pictures/q409_1.jpg"]
     },
     {
       "number": 410,
@@ -3765,7 +3765,7 @@
         "No large trucks and articulated vehicles allowed"
       ],
       "correct": 3,
-      "pictures": ["pictures/q410_1.png"]
+      "pictures": ["pictures/q410_1.jpg"]
     },
     {
       "number": 411,
@@ -3776,7 +3776,7 @@
         "Overtaking is prohibited"
       ],
       "correct": 1,
-      "pictures": ["pictures/q411_1.png"]
+      "pictures": ["pictures/q411_1.jpg"]
     },
     {
       "number": 412,
@@ -3787,7 +3787,7 @@
         "National road route number"
       ],
       "correct": 1,
-      "pictures": ["pictures/q412_1.png"]
+      "pictures": ["pictures/q412_1.jpg"]
     },
     {
       "number": 413,
@@ -3798,7 +3798,7 @@
         "National road route number"
       ],
       "correct": 3,
-      "pictures": ["pictures/q413_1.png"]
+      "pictures": ["pictures/q413_1.jpg"]
     },
     {
       "number": 414,
@@ -3809,7 +3809,7 @@
         "National road route number"
       ],
       "correct": 1,
-      "pictures": ["pictures/q414_1.png"]
+      "pictures": ["pictures/q414_1.jpg"]
     },
     {
       "number": 415,
@@ -3820,7 +3820,7 @@
         "National road route number"
       ],
       "correct": 2,
-      "pictures": ["pictures/q415_1.png"]
+      "pictures": ["pictures/q415_1.jpg"]
     },
     {
       "number": 416,
@@ -3831,7 +3831,7 @@
         "District or township road route number signs"
       ],
       "correct": 3,
-      "pictures": ["pictures/q416_1.png"]
+      "pictures": ["pictures/q416_1.jpg"]
     },
     {
       "number": 417,
@@ -3842,21 +3842,21 @@
         "Electrified single-track railway level crossing"
       ],
       "correct": 1,
-      "pictures": ["pictures/q417_1.png"]
+      "pictures": ["pictures/q417_1.jpg"]
     },
     {
       "number": 418,
       "question": "",
       "options": ["Stop line", "Near obstacle line", "Vehicle parking line"],
       "correct": 3,
-      "pictures": ["pictures/q418_1.png"]
+      "pictures": ["pictures/q418_1.jpg"]
     },
     {
       "number": 419,
       "question": "",
       "options": ["Parking area", "Railway station", "High-speed rail station"],
       "correct": 1,
-      "pictures": ["pictures/q419_1.png"]
+      "pictures": ["pictures/q419_1.jpg"]
     },
     {
       "number": 420,
@@ -3867,7 +3867,7 @@
         "Parking area"
       ],
       "correct": 2,
-      "pictures": ["pictures/q420_1.png"]
+      "pictures": ["pictures/q420_1.jpg"]
     },
     {
       "number": 421,
@@ -3878,7 +3878,7 @@
         "Lane advance notice"
       ],
       "correct": 3,
-      "pictures": ["pictures/q421_1.png"]
+      "pictures": ["pictures/q421_1.jpg"]
     },
     {
       "number": 422,
@@ -3889,7 +3889,7 @@
         "Lane advance notice"
       ],
       "correct": 2,
-      "pictures": ["pictures/q422_1.png"]
+      "pictures": ["pictures/q422_1.jpg"]
     },
     {
       "number": 423,
@@ -3900,7 +3900,7 @@
         "Vehicle breakdown sign"
       ],
       "correct": 3,
-      "pictures": ["pictures/q423_1.png"]
+      "pictures": ["pictures/q423_1.jpg"]
     },
     {
       "number": 424,
@@ -3911,7 +3911,7 @@
         "Check the tires"
       ],
       "correct": 1,
-      "pictures": ["pictures/q424_1.png"]
+      "pictures": ["pictures/q424_1.jpg"]
     },
     {
       "number": 425,
@@ -3922,7 +3922,7 @@
         "Double no-passing line"
       ],
       "correct": 1,
-      "pictures": ["pictures/q425_1.png"]
+      "pictures": ["pictures/q425_1.jpg"]
     },
     {
       "number": 426,
@@ -3933,14 +3933,14 @@
         "Bicycle crossing lines"
       ],
       "correct": 1,
-      "pictures": ["pictures/q426_1.png"]
+      "pictures": ["pictures/q426_1.jpg"]
     },
     {
       "number": 427,
       "question": "What does the white arrow in the picture indicate?",
       "options": ["Left turn", "Passing lane", "Lane reduction marking"],
       "correct": 3,
-      "pictures": ["pictures/q427_1.png"]
+      "pictures": ["pictures/q427_1.jpg"]
     },
     {
       "number": 428,
@@ -3951,7 +3951,7 @@
         "Lane control signal"
       ],
       "correct": 1,
-      "pictures": ["pictures/q428_1.png"]
+      "pictures": ["pictures/q428_1.jpg"]
     },
     {
       "number": 429,
@@ -3962,21 +3962,21 @@
         "Beware of motorcycles"
       ],
       "correct": 1,
-      "pictures": ["pictures/q429_1.png"]
+      "pictures": ["pictures/q429_1.jpg"]
     },
     {
       "number": 430,
       "question": "",
       "options": ["Port", "Ferry terminal", "Repair station"],
       "correct": 1,
-      "pictures": ["pictures/q430_1.png"]
+      "pictures": ["pictures/q430_1.jpg"]
     },
     {
       "number": 431,
       "question": "",
       "options": ["MRT Station", "Railway Station", "High-Speed Rail Station"],
       "correct": 2,
-      "pictures": ["pictures/q431_1.png"]
+      "pictures": ["pictures/q431_1.jpg"]
     },
     {
       "number": 432,
@@ -3987,7 +3987,7 @@
         "Taxi Stand"
       ],
       "correct": 1,
-      "pictures": ["pictures/q432_1.png"]
+      "pictures": ["pictures/q432_1.jpg"]
     },
     {
       "number": 433,
@@ -3998,7 +3998,7 @@
         "Slow Down and Stop"
       ],
       "correct": 3,
-      "pictures": ["pictures/q433_1.png"]
+      "pictures": ["pictures/q433_1.jpg"]
     },
     {
       "number": 434,
@@ -4009,7 +4009,7 @@
         "Slow Down and Stop"
       ],
       "correct": 2,
-      "pictures": ["pictures/q434_1.png"]
+      "pictures": ["pictures/q434_1.jpg"]
     },
     {
       "number": 435,
@@ -4020,14 +4020,14 @@
         "Slow Down and Stop"
       ],
       "correct": 1,
-      "pictures": ["pictures/q435_1.png"]
+      "pictures": ["pictures/q435_1.jpg"]
     },
     {
       "number": 436,
       "question": "",
       "options": ["Left turn", "Right turn", "Slow down and stop"],
       "correct": 1,
-      "pictures": ["pictures/q436_1.png"]
+      "pictures": ["pictures/q436_1.jpg"]
     },
     {
       "number": 437,
@@ -4038,7 +4038,7 @@
         "Lane designated for Mass Rapid Transit system vehicles only"
       ],
       "correct": 3,
-      "pictures": ["pictures/q437_1.png"]
+      "pictures": ["pictures/q437_1.jpg"]
     },
     {
       "number": 438,
@@ -4049,7 +4049,7 @@
         "No Mass Rapid Transit system vehicles allowed"
       ],
       "correct": 2,
-      "pictures": ["pictures/q438_1.png"]
+      "pictures": ["pictures/q438_1.jpg"]
     },
     {
       "number": 439,
@@ -4060,7 +4060,7 @@
         "Lane designated for vehicles with four or more wheels and motorcycles other than large heavy motorcycles only"
       ],
       "correct": 2,
-      "pictures": ["pictures/q439_1.png"]
+      "pictures": ["pictures/q439_1.jpg"]
     },
     {
       "number": 440,
@@ -4071,7 +4071,7 @@
         "Lane designated for Mass Rapid Transit system vehicles only"
       ],
       "correct": 1,
-      "pictures": ["pictures/q440_1.png"]
+      "pictures": ["pictures/q440_1.jpg"]
     },
     {
       "number": 441,
@@ -4082,7 +4082,7 @@
         "No entry for large passenger buses, large trucks, and articulated vehicles"
       ],
       "correct": 3,
-      "pictures": ["pictures/q441_1.png"]
+      "pictures": ["pictures/q441_1.jpg"]
     },
     {
       "number": 442,
@@ -4093,7 +4093,7 @@
         "Single-track electrified railroad crossing"
       ],
       "correct": 3,
-      "pictures": ["pictures/q442_1.png"]
+      "pictures": ["pictures/q442_1.jpg"]
     },
     {
       "number": 443,
@@ -4104,21 +4104,21 @@
         "Directional signs for place names"
       ],
       "correct": 2,
-      "pictures": ["pictures/q443_1.png"]
+      "pictures": ["pictures/q443_1.jpg"]
     },
     {
       "number": 444,
       "question": "A cyclist's hand signal indicates an upcoming",
       "options": ["right turn", "left turn", "deceleration or stop"],
       "correct": 1,
-      "pictures": ["pictures/q444_1.png"]
+      "pictures": ["pictures/q444_1.jpg"]
     },
     {
       "number": 445,
       "question": "A cyclist's hand signal indicates an upcoming",
       "options": ["right turn", "left turn", "deceleration or stop"],
       "correct": 3,
-      "pictures": ["pictures/q445_1.png"]
+      "pictures": ["pictures/q445_1.jpg"]
     },
     {
       "number": 446,
@@ -4129,7 +4129,7 @@
         "No entry for automobiles"
       ],
       "correct": 1,
-      "pictures": ["pictures/q446_1.png"]
+      "pictures": ["pictures/q446_1.jpg"]
     },
     {
       "number": 447,
@@ -4140,7 +4140,7 @@
         "Barred railway level crossing"
       ],
       "correct": 3,
-      "pictures": ["pictures/q447_1.png"]
+      "pictures": ["pictures/q447_1.jpg"]
     },
     {
       "number": 448,
@@ -4745,28 +4745,28 @@
       "question": "",
       "options": ["Two-way road", "Ambulance station", "Intersection"],
       "correct": 3,
-      "pictures": ["pictures/q509_1.png"]
+      "pictures": ["pictures/q509_1.jpg"]
     },
     {
       "number": 510,
       "question": "",
       "options": ["Intersection", "Two-way road", "No pedestrian crossing"],
       "correct": 1,
-      "pictures": ["pictures/q510_1.png"]
+      "pictures": ["pictures/q510_1.jpg"]
     },
     {
       "number": 511,
       "question": "",
       "options": ["Narrow Road", "Two-Way Road", "Intersection"],
       "correct": 3,
-      "pictures": ["pictures/q511_1.png"]
+      "pictures": ["pictures/q511_1.jpg"]
     },
     {
       "number": 512,
       "question": "",
       "options": ["Steep Uphill", "Steep Downhill", "Wharf"],
       "correct": 1,
-      "pictures": ["pictures/q512_1.png"]
+      "pictures": ["pictures/q512_1.jpg"]
     },
     {
       "number": 513,
@@ -4777,7 +4777,7 @@
         "Watch for Pedestrians"
       ],
       "correct": 2,
-      "pictures": ["pictures/q513_1.png"]
+      "pictures": ["pictures/q513_1.jpg"]
     },
     {
       "number": 514,
@@ -4788,7 +4788,7 @@
         "No Pedestrian Crossing"
       ],
       "correct": 2,
-      "pictures": ["pictures/q514_1.png"]
+      "pictures": ["pictures/q514_1.jpg"]
     },
     {
       "number": 515,
@@ -4799,7 +4799,7 @@
         "No Pedestrian Crossing"
       ],
       "correct": 2,
-      "pictures": ["pictures/q515_1.png"]
+      "pictures": ["pictures/q515_1.jpg"]
     },
     {
       "number": 516,
@@ -4810,7 +4810,7 @@
         "Traffic control signal"
       ],
       "correct": 1,
-      "pictures": ["pictures/q516_1.png"]
+      "pictures": ["pictures/q516_1.jpg"]
     },
     {
       "number": 517,
@@ -4821,7 +4821,7 @@
         "Watch out for children"
       ],
       "correct": 1,
-      "pictures": ["pictures/q517_1.png"]
+      "pictures": ["pictures/q517_1.jpg"]
     },
     {
       "number": 518,
@@ -4832,14 +4832,14 @@
         "Pedestrian only"
       ],
       "correct": 3,
-      "pictures": ["pictures/q518_1.png"]
+      "pictures": ["pictures/q518_1.jpg"]
     },
     {
       "number": 519,
       "question": "",
       "options": ["Fork in the road", "Dead end", "Gas station"],
       "correct": 2,
-      "pictures": ["pictures/q519_1.png"]
+      "pictures": ["pictures/q519_1.jpg"]
     },
     {
       "number": 520,
@@ -4850,7 +4850,7 @@
         "Double flashing yellow lights"
       ],
       "correct": 2,
-      "pictures": ["pictures/q520_1.png"]
+      "pictures": ["pictures/q520_1.jpg"]
     },
     {
       "number": 521,
@@ -4861,7 +4861,7 @@
         "Phased traffic signal"
       ],
       "correct": 2,
-      "pictures": ["pictures/q521_1.png"]
+      "pictures": ["pictures/q521_1.jpg"]
     },
     {
       "number": 522,
@@ -4872,7 +4872,7 @@
         "Phased traffic signal"
       ],
       "correct": 1,
-      "pictures": ["pictures/q522_1.png"]
+      "pictures": ["pictures/q522_1.jpg"]
     },
     {
       "number": 523,
@@ -4883,7 +4883,7 @@
         "Pedestrian crossing signal"
       ],
       "correct": 3,
-      "pictures": ["pictures/q523_1.png"]
+      "pictures": ["pictures/q523_1.jpg"]
     },
     {
       "number": 524,
@@ -4894,7 +4894,7 @@
         "Road width change line"
       ],
       "correct": 3,
-      "pictures": ["pictures/q524_1.png"]
+      "pictures": ["pictures/q524_1.jpg"]
     },
     {
       "number": 525,
@@ -4905,14 +4905,14 @@
         "Road edge line"
       ],
       "correct": 1,
-      "pictures": ["pictures/q525_1.png"]
+      "pictures": ["pictures/q525_1.jpg"]
     },
     {
       "number": 526,
       "question": "The horizontal solid white line in the picture indicates",
       "options": ["No passing line", "Stop line", "Pedestrian crosswalk line"],
       "correct": 2,
-      "pictures": ["pictures/q526_1.png"]
+      "pictures": ["pictures/q526_1.jpg"]
     },
     {
       "number": 527,
@@ -4923,7 +4923,7 @@
         "Vehicles coming from the front and rear must stop, vehicles from the left and right may proceed"
       ],
       "correct": 3,
-      "pictures": ["pictures/q527_1.png"]
+      "pictures": ["pictures/q527_1.jpg"]
     },
     {
       "number": 528,
@@ -4934,7 +4934,7 @@
         "Vehicles coming from the front must stop"
       ],
       "correct": 1,
-      "pictures": ["pictures/q528_1.png"]
+      "pictures": ["pictures/q528_1.jpg"]
     },
     {
       "number": 529,
@@ -4945,7 +4945,7 @@
         "Vehicles coming from the left are proceeding straight"
       ],
       "correct": 1,
-      "pictures": ["pictures/q529_1.png"]
+      "pictures": ["pictures/q529_1.jpg"]
     },
     {
       "number": 530,
@@ -4956,7 +4956,7 @@
         "Vehicles coming from the right are proceeding straight"
       ],
       "correct": 1,
-      "pictures": ["pictures/q530_1.png"]
+      "pictures": ["pictures/q530_1.jpg"]
     },
     {
       "number": 531,
@@ -4967,7 +4967,7 @@
         "The vehicle coming from the right is proceeding straight"
       ],
       "correct": 2,
-      "pictures": ["pictures/q531_1.png"]
+      "pictures": ["pictures/q531_1.jpg"]
     },
     {
       "number": 532,
@@ -4978,7 +4978,7 @@
         "The vehicle coming from the left is stopping"
       ],
       "correct": 1,
-      "pictures": ["pictures/q532_1.png"]
+      "pictures": ["pictures/q532_1.jpg"]
     },
     {
       "number": 533,
@@ -4989,7 +4989,7 @@
         "All vehicles must stop"
       ],
       "correct": 1,
-      "pictures": ["pictures/q533_1.png"]
+      "pictures": ["pictures/q533_1.jpg"]
     },
     {
       "number": 534,
@@ -5000,7 +5000,7 @@
         "The vehicle coming from the right is proceeding straight"
       ],
       "correct": 3,
-      "pictures": ["pictures/q534_1.png"]
+      "pictures": ["pictures/q534_1.jpg"]
     },
     {
       "number": 535,
@@ -5297,7 +5297,7 @@
         "No large trucks and articulated vehicles allowed to enter"
       ],
       "correct": 3,
-      "pictures": ["pictures/q564_1.png"]
+      "pictures": ["pictures/q564_1.jpg"]
     },
     {
       "number": 565,
@@ -5462,14 +5462,14 @@
       "question": "",
       "options": ["One-way street", "Two-way street", "Narrow road"],
       "correct": 2,
-      "pictures": ["pictures/q582_1.png"]
+      "pictures": ["pictures/q582_1.jpg"]
     },
     {
       "number": 583,
       "question": "",
       "options": ["No U-turn", "No left turn", "No right turn"],
       "correct": 2,
-      "pictures": ["pictures/q583_1.png"]
+      "pictures": ["pictures/q583_1.jpg"]
     },
     {
       "number": 584,
@@ -5480,7 +5480,7 @@
         "No left turn and no straight ahead"
       ],
       "correct": 3,
-      "pictures": ["pictures/q584_1.png"]
+      "pictures": ["pictures/q584_1.jpg"]
     },
     {
       "number": 585,
@@ -5491,14 +5491,14 @@
         "Traffic direction indication"
       ],
       "correct": 1,
-      "pictures": ["pictures/q585_1.png"]
+      "pictures": ["pictures/q585_1.jpg"]
     },
     {
       "number": 586,
       "question": "",
       "options": ["Road construction", "Road closure", "Vehicle detour"],
       "correct": 2,
-      "pictures": ["pictures/q586_1.png"]
+      "pictures": ["pictures/q586_1.jpg"]
     },
     {
       "number": 587,
@@ -5509,7 +5509,7 @@
         "Two-stage left turn for motorcycles and scooters"
       ],
       "correct": 3,
-      "pictures": ["pictures/q587_1.png"]
+      "pictures": ["pictures/q587_1.jpg"]
     },
     {
       "number": 588,
@@ -5520,14 +5520,14 @@
         "Two-stage left turn for motorcycles and scooters"
       ],
       "correct": 1,
-      "pictures": ["pictures/q588_1.png"]
+      "pictures": ["pictures/q588_1.jpg"]
     },
     {
       "number": 589,
       "question": "The white dashed line in the picture is",
       "options": ["Turning lane line", "Mesh line", "Channelizing line"],
       "correct": 1,
-      "pictures": ["pictures/q589_1.png"]
+      "pictures": ["pictures/q589_1.jpg"]
     },
     {
       "number": 590,
@@ -5538,7 +5538,7 @@
         "Place name direction indicator"
       ],
       "correct": 3,
-      "pictures": ["pictures/q590_1.png"]
+      "pictures": ["pictures/q590_1.jpg"]
     },
     {
       "number": 591,
@@ -5549,7 +5549,7 @@
         "Place name direction indication"
       ],
       "correct": 1,
-      "pictures": ["pictures/q591_1.png"]
+      "pictures": ["pictures/q591_1.jpg"]
     },
     {
       "number": 592,
@@ -5560,21 +5560,21 @@
         "Traffic control signal"
       ],
       "correct": 1,
-      "pictures": ["pictures/q592_1.png"]
+      "pictures": ["pictures/q592_1.jpg"]
     },
     {
       "number": 593,
       "question": "",
       "options": ["One-way street", "Lane travel direction", "Left turn only"],
       "correct": 2,
-      "pictures": ["pictures/q593_1.png"]
+      "pictures": ["pictures/q593_1.jpg"]
     },
     {
       "number": 594,
       "question": "",
       "options": ["Straight only", "Travel direction", "One-way street"],
       "correct": 3,
-      "pictures": ["pictures/q594_1.png"]
+      "pictures": ["pictures/q594_1.jpg"]
     },
     {
       "number": 595,
@@ -6569,7 +6569,7 @@
         "Continuous curves, first turn right"
       ],
       "correct": 1,
-      "pictures": ["pictures/q699_1.png"]
+      "pictures": ["pictures/q699_1.jpg"]
     },
     {
       "number": 700,
@@ -6580,7 +6580,7 @@
         "Continuous curves, first turn left"
       ],
       "correct": 1,
-      "pictures": ["pictures/q700_1.png"]
+      "pictures": ["pictures/q700_1.jpg"]
     },
     {
       "number": 701,
@@ -6591,7 +6591,7 @@
         "Right turn"
       ],
       "correct": 1,
-      "pictures": ["pictures/q701_1.png"]
+      "pictures": ["pictures/q701_1.jpg"]
     },
     {
       "number": 702,
@@ -6602,7 +6602,7 @@
         "Left turn"
       ],
       "correct": 1,
-      "pictures": ["pictures/q702_1.png"]
+      "pictures": ["pictures/q702_1.jpg"]
     },
     {
       "number": 703,
@@ -6613,49 +6613,49 @@
         "Change in road width lane marking"
       ],
       "correct": 1,
-      "pictures": ["pictures/q703_1.png"]
+      "pictures": ["pictures/q703_1.jpg"]
     },
     {
       "number": 704,
       "question": "",
       "options": ["Right lane reduction", "Left lane reduction", "Narrow road"],
       "correct": 2,
-      "pictures": ["pictures/q704_1.png"]
+      "pictures": ["pictures/q704_1.jpg"]
     },
     {
       "number": 705,
       "question": "",
       "options": ["Right lane reduction", "Narrow road", "Ramp merging"],
       "correct": 1,
-      "pictures": ["pictures/q705_1.png"]
+      "pictures": ["pictures/q705_1.jpg"]
     },
     {
       "number": 706,
       "question": "",
       "options": ["Curve", "Roundabout", "Follow the direction of travel"],
       "correct": 2,
-      "pictures": ["pictures/q706_1.png"]
+      "pictures": ["pictures/q706_1.jpg"]
     },
     {
       "number": 707,
       "question": "",
       "options": ["Bump ahead", "Bumpy road", "Road construction"],
       "correct": 2,
-      "pictures": ["pictures/q707_1.png"]
+      "pictures": ["pictures/q707_1.jpg"]
     },
     {
       "number": 708,
       "question": "",
       "options": ["Bumpy road surface", "Slope", "Raised road surface"],
       "correct": 3,
-      "pictures": ["pictures/q708_1.png"]
+      "pictures": ["pictures/q708_1.jpg"]
     },
     {
       "number": 709,
       "question": "",
       "options": ["Stop and then proceed", "Yield", "Slow down"],
       "correct": 3,
-      "pictures": ["pictures/q709_1.png"]
+      "pictures": ["pictures/q709_1.jpg"]
     },
     {
       "number": 710,
@@ -6666,7 +6666,7 @@
         "Vehicle gross weight limit"
       ],
       "correct": 2,
-      "pictures": ["pictures/q710_1.png"]
+      "pictures": ["pictures/q710_1.jpg"]
     },
     {
       "number": 711,
@@ -6677,7 +6677,7 @@
         "No pedestrians allowed"
       ],
       "correct": 2,
-      "pictures": ["pictures/q711_1.png"]
+      "pictures": ["pictures/q711_1.jpg"]
     },
     {
       "number": 712,
@@ -6688,7 +6688,7 @@
         "No large heavy motorcycles allowed to enter"
       ],
       "correct": 3,
-      "pictures": ["pictures/q712_1.png"]
+      "pictures": ["pictures/q712_1.jpg"]
     },
     {
       "number": 713,
@@ -6699,7 +6699,7 @@
         "No bicycles allowed to enter"
       ],
       "correct": 1,
-      "pictures": ["pictures/q713_1.png"]
+      "pictures": ["pictures/q713_1.jpg"]
     },
     {
       "number": 714,
@@ -6710,7 +6710,7 @@
         "No motorcycles allowed to enter"
       ],
       "correct": 2,
-      "pictures": ["pictures/q714_1.png"]
+      "pictures": ["pictures/q714_1.jpg"]
     },
     {
       "number": 715,
@@ -6721,14 +6721,14 @@
         "No pedestrians allowed"
       ],
       "correct": 1,
-      "pictures": ["pictures/q715_1.png"]
+      "pictures": ["pictures/q715_1.jpg"]
     },
     {
       "number": 716,
       "question": "",
       "options": ["No left turn", "No U-turn", "No parking"],
       "correct": 2,
-      "pictures": ["pictures/q716_1.png"]
+      "pictures": ["pictures/q716_1.jpg"]
     },
     {
       "number": 717,
@@ -6739,28 +6739,28 @@
         "Vehicle gross weight limit"
       ],
       "correct": 2,
-      "pictures": ["pictures/q717_1.png"]
+      "pictures": ["pictures/q717_1.jpg"]
     },
     {
       "number": 718,
       "question": "",
       "options": ["Keep right", "One-way street", "Right turn"],
       "correct": 1,
-      "pictures": ["pictures/q718_1.png"]
+      "pictures": ["pictures/q718_1.jpg"]
     },
     {
       "number": 719,
       "question": "",
       "options": ["No parking", "Stop and go", "No temporary stopping"],
       "correct": 2,
-      "pictures": ["pictures/q719_1.png"]
+      "pictures": ["pictures/q719_1.jpg"]
     },
     {
       "number": 720,
       "question": "The yellow solid line in the picture indicates",
       "options": ["Pedestrian crosswalk line", "No parking line", "Stop line"],
       "correct": 2,
-      "pictures": ["pictures/q720_1.png"]
+      "pictures": ["pictures/q720_1.jpg"]
     },
     {
       "number": 721,
@@ -6771,7 +6771,7 @@
         "No passing line"
       ],
       "correct": 1,
-      "pictures": ["pictures/q721_1.png"]
+      "pictures": ["pictures/q721_1.jpg"]
     },
     {
       "number": 722,
@@ -6782,7 +6782,7 @@
         "Near obstacle line"
       ],
       "correct": 3,
-      "pictures": ["pictures/q722_1.png"]
+      "pictures": ["pictures/q722_1.jpg"]
     },
     {
       "number": 723,
@@ -6793,7 +6793,7 @@
         "Edge line"
       ],
       "correct": 2,
-      "pictures": ["pictures/q723_1.png"]
+      "pictures": ["pictures/q723_1.jpg"]
     },
     {
       "number": 724,
@@ -6804,7 +6804,7 @@
         "Road width change line"
       ],
       "correct": 2,
-      "pictures": ["pictures/q724_1.png"]
+      "pictures": ["pictures/q724_1.jpg"]
     },
     {
       "number": 725,
@@ -6815,14 +6815,14 @@
         "Vehicle parking line"
       ],
       "correct": 2,
-      "pictures": ["pictures/q725_1.png"]
+      "pictures": ["pictures/q725_1.jpg"]
     },
     {
       "number": 726,
       "question": "The white inverted triangle marking in the picture indicates",
       "options": ["Yield line", "Stop line", "Obstacle proximity line"],
       "correct": 1,
-      "pictures": ["pictures/q726_1.png"]
+      "pictures": ["pictures/q726_1.jpg"]
     },
     {
       "number": 727,
@@ -6833,7 +6833,7 @@
         "Road width change line"
       ],
       "correct": 1,
-      "pictures": ["pictures/q727_1.png"]
+      "pictures": ["pictures/q727_1.jpg"]
     },
     {
       "number": 728,
@@ -6844,35 +6844,35 @@
         "Transverse pedestrian crossing line with sleeper pattern"
       ],
       "correct": 3,
-      "pictures": ["pictures/q728_1.png"]
+      "pictures": ["pictures/q728_1.jpg"]
     },
     {
       "number": 729,
       "question": "",
       "options": ["Right lane closed", "Left lane closed", "Vehicle detour"],
       "correct": 2,
-      "pictures": ["pictures/q729_1.png"]
+      "pictures": ["pictures/q729_1.jpg"]
     },
     {
       "number": 730,
       "question": "",
       "options": ["Right lane closed", "Left lane closed", "Vehicle detour"],
       "correct": 1,
-      "pictures": ["pictures/q730_1.png"]
+      "pictures": ["pictures/q730_1.jpg"]
     },
     {
       "number": 731,
       "question": "",
       "options": ["Road closure", "Vehicle detour", "Road construction"],
       "correct": 3,
-      "pictures": ["pictures/q731_1.png"]
+      "pictures": ["pictures/q731_1.jpg"]
     },
     {
       "number": 732,
       "question": "",
       "options": ["Road construction", "Road closure", "Vehicle detour"],
       "correct": 3,
-      "pictures": ["pictures/q732_1.png"]
+      "pictures": ["pictures/q732_1.jpg"]
     },
     {
       "number": 733,
@@ -6883,7 +6883,7 @@
         "Exclusive use for motorcycles other than bicycles and large heavy motorcycles"
       ],
       "correct": 3,
-      "pictures": ["pictures/q733_1.png"]
+      "pictures": ["pictures/q733_1.jpg"]
     },
     {
       "number": 734,
@@ -6894,7 +6894,7 @@
         "Prohibition of entry for cars with four or more wheels and large heavy motorcycles with engine displacement over 550 cc"
       ],
       "correct": 1,
-      "pictures": ["pictures/q734_1.png"]
+      "pictures": ["pictures/q734_1.jpg"]
     },
     {
       "number": 735,
@@ -6905,7 +6905,7 @@
         "Prohibition of entry for cars with four or more wheels and large heavy motorcycles"
       ],
       "correct": 2,
-      "pictures": ["pictures/q735_1.png"]
+      "pictures": ["pictures/q735_1.jpg"]
     },
     {
       "number": 736,
@@ -6916,7 +6916,7 @@
         "Prohibited entry for vehicles with four or more wheels and large heavy motorcycles with engine displacement over 550 cc"
       ],
       "correct": 2,
-      "pictures": ["pictures/q736_1.png"]
+      "pictures": ["pictures/q736_1.jpg"]
     },
     {
       "number": 737,
@@ -6927,7 +6927,7 @@
         "Lane designated exclusively for bicycles and light motorcycles"
       ],
       "correct": 1,
-      "pictures": ["pictures/q737_1.png"]
+      "pictures": ["pictures/q737_1.jpg"]
     },
     {
       "number": 738,
@@ -6938,21 +6938,21 @@
         "Lane designated exclusively for motorcycles"
       ],
       "correct": 1,
-      "pictures": ["pictures/q738_1.png"]
+      "pictures": ["pictures/q738_1.jpg"]
     },
     {
       "number": 739,
       "question": "",
       "options": ["Two-way road", "Narrow bridge", "Narrow road"],
       "correct": 2,
-      "pictures": ["pictures/q739_1.png"]
+      "pictures": ["pictures/q739_1.jpg"]
     },
     {
       "number": 740,
       "question": "",
       "options": ["MRT station", "Railway station", "High-speed rail station"],
       "correct": 1,
-      "pictures": ["pictures/q740_1.png"]
+      "pictures": ["pictures/q740_1.jpg"]
     },
     {
       "number": 741,
@@ -6963,14 +6963,14 @@
         "Allow the vehicle behind to overtake"
       ],
       "correct": 1,
-      "pictures": ["pictures/q741_1.png"]
+      "pictures": ["pictures/q741_1.jpg"]
     },
     {
       "number": 742,
       "question": "Left arm extended horizontally with the palm facing downward indicates",
       "options": ["Right turn", "Left turn", "Slow down"],
       "correct": 2,
-      "pictures": ["pictures/q742_1.png"]
+      "pictures": ["pictures/q742_1.jpg"]
     },
     {
       "number": 743,
@@ -6981,7 +6981,7 @@
         "Reverse"
       ],
       "correct": 1,
-      "pictures": ["pictures/q743_1.png"]
+      "pictures": ["pictures/q743_1.jpg"]
     },
     {
       "number": 744,
@@ -6992,7 +6992,7 @@
         "Drive on the left lane"
       ],
       "correct": 1,
-      "pictures": ["pictures/q744_1.png"]
+      "pictures": ["pictures/q744_1.jpg"]
     },
     {
       "number": 745,
@@ -7003,7 +7003,7 @@
         "Place name and direction indication"
       ],
       "correct": 2,
-      "pictures": ["pictures/q745_1.png"]
+      "pictures": ["pictures/q745_1.jpg"]
     },
     {
       "number": 746,
@@ -7014,7 +7014,7 @@
         "general roads to freeway interchanges"
       ],
       "correct": 3,
-      "pictures": ["pictures/q746_1.png"]
+      "pictures": ["pictures/q746_1.jpg"]
     },
     {
       "number": 747,
@@ -7025,14 +7025,14 @@
         "county road route number sign"
       ],
       "correct": 2,
-      "pictures": ["pictures/q747_1.png"]
+      "pictures": ["pictures/q747_1.jpg"]
     },
     {
       "number": 748,
       "question": "",
       "options": ["MRT station", "railway station", "high-speed rail station"],
       "correct": 3,
-      "pictures": ["pictures/q748_1.png"]
+      "pictures": ["pictures/q748_1.jpg"]
     },
     {
       "number": 749,
@@ -7043,7 +7043,7 @@
         "parking area"
       ],
       "correct": 1,
-      "pictures": ["pictures/q749_1.png"]
+      "pictures": ["pictures/q749_1.jpg"]
     },
     {
       "number": 750,
@@ -7466,7 +7466,7 @@
         "Sound the horn"
       ],
       "correct": 1,
-      "pictures": ["pictures/q792_1.png"]
+      "pictures": ["pictures/q792_1.jpg"]
     },
     {
       "number": 793,

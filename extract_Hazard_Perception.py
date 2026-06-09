@@ -31,7 +31,10 @@ from pathlib import Path
 import pdfplumber
 
 ROOT = Path(__file__).parent
-PDF_PATH = ROOT / "public" / "Hazard_Perception_Multiple.pdf"
+# Source PDF lives outside the repo (in a sibling temp dir) so the large
+# binary isn't checked in; only the extracted JSON is.
+PDF_SRC = ROOT.parent / "motorcycle-driving-test-temp"
+PDF_PATH = PDF_SRC / "Hazard_Perception_Multiple.pdf"
 OUT_PATH = ROOT / "public" / "Hazard_Perception_Multiple.json"
 VIDEO_DIR = ROOT / "public" / "videos"
 

@@ -11,10 +11,10 @@
 For each question, the JSON record looks like::
 
     {"number": N, "question": str, "options": [s, s, s], "correct": 1|2|3,
-     "pictures": ["pictures/q123_1.png", ...]}
+     "pictures": ["pictures/q123_1.jpg", ...]}
 
-Pictures are rendered straight from the PDF page (so they keep colors,
-transparency, etc.) and saved into ``pictures/``.
+Pictures are rendered straight from the PDF page (so they keep colors) and
+saved as JPEGs into ``pictures/`` to keep their on-disk size small.
 """
 
 import json
@@ -23,13 +23,18 @@ import sys
 from pathlib import Path
 
 import pdfplumber
+from PIL import Image
 
 ROOT = Path(__file__).parent
-PDF_PATH = ROOT / "public" / "Written_Test_Question_Bank.pdf"
+# Source PDFs live outside the repo (in a sibling temp dir) so the large
+# binaries aren't checked in; only the extracted JSON + JPEGs are.
+PDF_SRC = ROOT.parent / "motorcycle-driving-test-temp"
+PDF_PATH = PDF_SRC / "Written_Test_Question_Bank.pdf"
 OUT_PATH = ROOT / "public" / "Written_Test_Question_Bank.json"
 PIC_DIR = ROOT / "public" / "pictures"
 RENDER_DPI = 220
 PIC_PADDING = 2  # pixels of padding around the cropped picture
+JPEG_QUALITY = 65  # JPEG encode quality (trades file size for fidelity)
 
 
 def clean_text(text: str | None) -> str:
@@ -102,8 +107,10 @@ def normalize_row(row: list) -> tuple[str, str, str] | None:
 def main() -> None:
     PIC_DIR.mkdir(exist_ok=True)
     # Clear any stale pictures from a prior run so file names stay deterministic.
-    for old in PIC_DIR.glob("q*.png"):
-        old.unlink()
+    # Includes legacy ``.png`` files from before we switched to JPEG output.
+    for pattern in ("q*.jpg", "q*.png"):
+        for old in PIC_DIR.glob(pattern):
+            old.unlink()
 
     raw_questions: list[dict] = []
     expected_no = 1
@@ -311,7 +318,7 @@ def main() -> None:
 
 
 def _save_image(page, bbox: tuple[float, float, float, float], qno: int, idx: int) -> str:
-    """Render the bbox region of `page` and save as a PNG. Returns relative path."""
+    """Render the bbox region of `page` and save as a JPEG. Returns relative path."""
     scale = RENDER_DPI / 72.0
     x0, y0, x1, y1 = bbox
     px0 = max(0, int(x0 * scale) - PIC_PADDING)
@@ -320,8 +327,17 @@ def _save_image(page, bbox: tuple[float, float, float, float], qno: int, idx: in
     py1 = int(y1 * scale) + PIC_PADDING
     pil = page.to_image(resolution=RENDER_DPI).original
     crop = pil.crop((px0, py0, px1, py1))
-    name = f"q{qno:03d}_{idx}.png"
-    crop.save(PIC_DIR / name)
+    # JPEG has no alpha channel; flatten any transparency onto white so it
+    # doesn't render as black.
+    if crop.mode in ("RGBA", "LA", "P"):
+        crop = crop.convert("RGBA")
+        background = Image.new("RGB", crop.size, (255, 255, 255))
+        background.paste(crop, mask=crop.split()[-1])
+        crop = background
+    elif crop.mode != "RGB":
+        crop = crop.convert("RGB")
+    name = f"q{qno:03d}_{idx}.jpg"
+    crop.save(PIC_DIR / name, quality=JPEG_QUALITY, optimize=True)
     return f"pictures/{name}"
 
 
