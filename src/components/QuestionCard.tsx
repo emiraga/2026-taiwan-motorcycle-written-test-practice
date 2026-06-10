@@ -3,6 +3,7 @@ import { useEffect, useRef, useState, type ReactNode } from "react";
 import type { AnswerValue, Question, QuestionProgress } from "@/types";
 import { cn } from "@/lib/utils";
 import {
+  attemptsOf,
   isLastIncorrect,
   isUnanswered,
   timesAnswered,
@@ -100,6 +101,76 @@ function Badge({
     >
       {children}
     </span>
+  );
+}
+
+const historyTimeFormat = new Intl.DateTimeFormat(undefined, {
+  dateStyle: "medium",
+  timeStyle: "short",
+});
+
+/**
+ * Render a human-readable description of a past answer: the chosen option's
+ * number and text, or "I don't know".
+ */
+function describeAnswer(answer: AnswerValue, question: Question): string {
+  if (answer === "idk") return "I don't know";
+  const text = question.options[answer - 1] ?? "";
+  return `${answer}. ${text}`;
+}
+
+/**
+ * The list of past attempts for this card, newest first. Shown once the answer
+ * is revealed so the user can see how they've done on this question over time.
+ */
+function AttemptHistory({
+  question,
+  progress,
+}: {
+  question: Question;
+  progress?: QuestionProgress;
+}) {
+  const attempts = attemptsOf(progress);
+  if (attempts.length === 0) return null;
+
+  return (
+    <div className="mt-4 border-t border-gray-100 pt-4">
+      <p className="mb-2 text-xs font-semibold text-gray-400">History</p>
+      <ul className="space-y-1.5">
+        {attempts
+          .map((attempt, idx) => ({ attempt, idx }))
+          .reverse()
+          .map(({ attempt, idx }) => (
+            <li
+              key={idx}
+              className="flex items-center gap-2 text-xs text-gray-600"
+            >
+              <span
+                className={cn(
+                  "inline-block h-2 w-2 shrink-0 rounded-full",
+                  attempt.correct ? "bg-green-500" : "bg-red-500",
+                )}
+                aria-hidden
+              />
+              <span
+                className={cn(
+                  "font-medium",
+                  attempt.correct ? "text-green-700" : "text-red-700",
+                )}
+              >
+                {attempt.correct ? "Correct" : "Incorrect"}
+              </span>
+              <span className="text-gray-400">·</span>
+              <span className="truncate">
+                {describeAnswer(attempt.answer, question)}
+              </span>
+              <span className="ml-auto shrink-0 text-gray-400">
+                {historyTimeFormat.format(attempt.timestamp)}
+              </span>
+            </li>
+          ))}
+      </ul>
+    </div>
   );
 }
 
@@ -307,6 +378,8 @@ export function QuestionCard({
           <GeminiExplainButton prompt={explainPrompt} />
         </div>
       )}
+
+      {revealed && <AttemptHistory question={question} progress={progress} />}
 
       <div className="mt-4 flex items-center gap-3">
         {!revealed ? (
