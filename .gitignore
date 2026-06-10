@@ -29,3 +29,4 @@ public/videos/*.mp4
 # Cloudflare / Wrangler
 .wrangler
 .dev.vars
+__pycache__
