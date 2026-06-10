@@ -4,9 +4,7 @@ import type { AnswerValue, Question, QuestionProgress } from "@/types";
 import { cn } from "@/lib/utils";
 import {
   attemptsOf,
-  isLastIncorrect,
   isUnanswered,
-  timesAnswered,
   wasEverIncorrect,
 } from "@/lib/progress";
 import {
@@ -27,10 +25,9 @@ function StatusBadge({ progress }: { progress?: QuestionProgress }) {
   if (isUnanswered(progress)) {
     return <Badge className="bg-gray-100 text-gray-600">Unanswered</Badge>;
   }
-  if (isLastIncorrect(progress)) {
-    return <Badge className="bg-red-100 text-red-700">Last: incorrect</Badge>;
-  }
-  return <Badge className="bg-green-100 text-green-700">Last: correct</Badge>;
+  // Deliberately don't reveal whether the last answer was correct or incorrect:
+  // seeing that before re-answering biases the user.
+  return <Badge className="bg-blue-100 text-blue-700">Answered</Badge>;
 }
 
 /**
@@ -260,15 +257,15 @@ export function QuestionCard({
   return (
     <li className="rounded-xl border border-gray-200 bg-white p-5 shadow-sm">
       <div className="mb-3 flex items-center justify-between gap-3">
-        <span className="text-sm font-semibold text-gray-400">
-          #{question.number}
+        {/* Show only "#" by default and reveal the number on hover (as a
+            tooltip), so the question number doesn't bias the user. */}
+        <span
+          className="cursor-help text-sm font-semibold text-gray-400"
+          title={`Question ${question.number}`}
+        >
+          #
         </span>
         <div className="flex items-center gap-2">
-          {timesAnswered(progress) > 0 && (
-            <Badge className="bg-gray-100 text-gray-500">
-              answered {timesAnswered(progress)}×
-            </Badge>
-          )}
           {wasEverIncorrect(progress) && (
             <Badge className="bg-amber-100 text-amber-700">missed before</Badge>
           )}
