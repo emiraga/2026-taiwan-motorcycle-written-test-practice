@@ -1,6 +1,11 @@
 import { useRef } from "react";
 
 import type { FilterMode, SecondarySortMode, SortMode } from "@/types";
+import {
+  FILTER_OPTIONS,
+  SECONDARY_SORT_OPTIONS,
+  SORT_OPTIONS,
+} from "@/lib/viewSettings";
 
 interface ControlsProps {
   filter: FilterMode;
@@ -16,26 +21,6 @@ interface ControlsProps {
   onImport: (file: File) => void;
   onSync: () => void;
 }
-
-const FILTER_OPTIONS: { value: FilterMode; label: string }[] = [
-  { value: "all", label: "All questions" },
-  { value: "unanswered", label: "Unanswered questions" },
-  { value: "lastIncorrect", label: "Last answer incorrect" },
-  { value: "incorrectEver", label: "Answered incorrect at any time" },
-  { value: "srsDue", label: "Due for review (spaced repetition)" },
-];
-
-const SORT_OPTIONS: { value: SortMode; label: string }[] = [
-  { value: "sequence", label: "Sequence number" },
-  { value: "leastAnswered", label: "Least number of times answered" },
-  { value: "spacedRepetition", label: "Spaced repetition (due first)" },
-  { value: "random", label: "Random" },
-];
-
-const SECONDARY_SORT_OPTIONS: { value: SecondarySortMode; label: string }[] = [
-  { value: "random", label: "Random" },
-  { value: "sequence", label: "Sequence number" },
-];
 
 const selectClass =
   "rounded-lg border border-gray-300 bg-white px-3 py-2 text-sm font-medium text-gray-700 shadow-sm focus:border-blue-400 focus:outline-none focus:ring-2 focus:ring-blue-200";

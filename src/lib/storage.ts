@@ -1,6 +1,14 @@
-import type { BankProgress } from "@/types";
+import type { BankProgress, FilterMode, SecondarySortMode, SortMode } from "@/types";
 import { BANKS, DEFAULT_BANK } from "@/lib/banks";
 import { isBankProgress } from "@/lib/merge";
+import {
+  DEFAULT_FILTER,
+  DEFAULT_SECONDARY_SORT,
+  DEFAULT_SORT,
+  FILTER_OPTIONS,
+  SECONDARY_SORT_OPTIONS,
+  SORT_OPTIONS,
+} from "@/lib/viewSettings";
 
 // The pure, DOM-free progress helpers live in `merge.ts` so the Cloudflare
 // Pages Function can import them too. Re-exported here so existing callers that
@@ -13,6 +21,28 @@ function storageKey(bank: string): string {
 
 const LAST_BANK_KEY = "qbank:lastBank";
 const SYNC_SECRET_KEY = "qbank:syncSecret";
+const FILTER_KEY = "qbank:filter";
+const SORT_KEY = "qbank:sort";
+const SECONDARY_SORT_KEY = "qbank:secondarySort";
+
+/**
+ * Reads a remembered choice from localStorage, falling back to `fallback` when
+ * nothing is stored or the stored value is no longer one of `allowed`.
+ */
+function loadChoice<T extends string>(
+  key: string,
+  allowed: readonly T[],
+  fallback: T,
+): T {
+  const stored = localStorage.getItem(key);
+  return stored && (allowed as readonly string[]).includes(stored)
+    ? (stored as T)
+    : fallback;
+}
+
+function saveChoice(key: string, value: string): void {
+  localStorage.setItem(key, value);
+}
 
 /** The shared sync passphrase for this device, or null if not yet set. */
 export function loadSyncSecret(): string | null {
@@ -25,13 +55,54 @@ export function saveSyncSecret(secret: string): void {
 
 /** The most recently selected bank, or DEFAULT_BANK if none/invalid is stored. */
 export function loadLastBank(): string {
-  const stored = localStorage.getItem(LAST_BANK_KEY);
-  if (stored && BANKS.some((b) => b.id === stored)) return stored;
-  return DEFAULT_BANK;
+  return loadChoice(
+    LAST_BANK_KEY,
+    BANKS.map((b) => b.id),
+    DEFAULT_BANK,
+  );
 }
 
 export function saveLastBank(bank: string): void {
-  localStorage.setItem(LAST_BANK_KEY, bank);
+  saveChoice(LAST_BANK_KEY, bank);
+}
+
+/** The most recently used filter, or its default if none/invalid is stored. */
+export function loadFilter(): FilterMode {
+  return loadChoice(
+    FILTER_KEY,
+    FILTER_OPTIONS.map((o) => o.value),
+    DEFAULT_FILTER,
+  );
+}
+
+export function saveFilter(filter: FilterMode): void {
+  saveChoice(FILTER_KEY, filter);
+}
+
+/** The most recently used sort, or its default if none/invalid is stored. */
+export function loadSort(): SortMode {
+  return loadChoice(
+    SORT_KEY,
+    SORT_OPTIONS.map((o) => o.value),
+    DEFAULT_SORT,
+  );
+}
+
+export function saveSort(sort: SortMode): void {
+  saveChoice(SORT_KEY, sort);
+}
+
+/** The most recently used tie-breaker sort, or its default if none/invalid. */
+export function loadSecondarySort(): SecondarySortMode {
+  return loadChoice(
+    SECONDARY_SORT_KEY,
+    SECONDARY_SORT_OPTIONS.map((o) => o.value),
+    DEFAULT_SECONDARY_SORT,
+  );
+}
+
+export function saveSecondarySort(sort: SecondarySortMode): void {
+  saveChoice(SECONDARY_SORT_KEY, sort);
 }
 
 function emptyProgress(bank: string): BankProgress {

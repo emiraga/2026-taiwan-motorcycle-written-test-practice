@@ -19,11 +19,17 @@ import { useProgress } from "@/hooks/useProgress";
 import { useKeyboardShortcuts } from "@/hooks/useKeyboardShortcuts";
 import {
   exportFileName,
+  loadFilter,
   loadLastBank,
+  loadSecondarySort,
+  loadSort,
   loadSyncSecret,
   mergeProgress,
   parseProgress,
+  saveFilter,
   saveLastBank,
+  saveSecondarySort,
+  saveSort,
   saveSyncSecret,
 } from "@/lib/storage";
 import { syncBank } from "@/lib/sync";
@@ -38,10 +44,25 @@ function App() {
   const [bank, setBank] = useState<string>(loadLastBank);
   const [questions, setQuestions] = useState<Question[] | null>(null);
   const [error, setError] = useState<string | null>(null);
-  const [filter, setFilter] = useState<FilterMode>("all");
-  const [sort, setSort] = useState<SortMode>("leastAnswered");
+  const [filter, setFilter] = useState<FilterMode>(loadFilter);
+  const [sort, setSort] = useState<SortMode>(loadSort);
   const [secondarySort, setSecondarySort] =
-    useState<SecondarySortMode>("random");
+    useState<SecondarySortMode>(loadSecondarySort);
+
+  // Remember the last-used filter/sort selections, mirroring how the chosen
+  // bank is persisted, so they're restored on the next visit.
+  const handleFilterChange = (next: FilterMode) => {
+    setFilter(next);
+    saveFilter(next);
+  };
+  const handleSortChange = (next: SortMode) => {
+    setSort(next);
+    saveSort(next);
+  };
+  const handleSecondarySortChange = (next: SecondarySortMode) => {
+    setSecondarySort(next);
+    saveSecondarySort(next);
+  };
   const [index, setIndex] = useState(0);
   const [showStats, setShowStats] = useState(false);
 
@@ -289,27 +310,14 @@ function App() {
           <BankSelector bank={bank} onBankChange={setBank} />
         </header>
 
-        <div className="mb-6 flex items-stretch gap-3">
-          <div className="flex-1">
-            <StatsBar stats={stats} />
-          </div>
-          <button
-            type="button"
-            onClick={() => setShowStats(true)}
-            className="shrink-0 rounded-lg border border-gray-300 bg-white px-4 py-2 text-sm font-medium text-gray-700 shadow-sm transition-colors hover:bg-gray-50"
-          >
-            More Stats
-          </button>
-        </div>
-
         <div className="mb-6">
           <Controls
             filter={filter}
             sort={sort}
             secondarySort={secondarySort}
-            onFilterChange={setFilter}
-            onSortChange={setSort}
-            onSecondarySortChange={setSecondarySort}
+            onFilterChange={handleFilterChange}
+            onSortChange={handleSortChange}
+            onSecondarySortChange={handleSecondarySortChange}
             shown={filtered.length}
             total={questions.length}
             onResetAll={() => {
@@ -325,6 +333,19 @@ function App() {
             onImport={handleImport}
             onSync={handleSync}
           />
+        </div>
+
+        <div className="mb-6 flex items-stretch gap-3">
+          <div className="flex-1">
+            <StatsBar stats={stats} />
+          </div>
+          <button
+            type="button"
+            onClick={() => setShowStats(true)}
+            className="shrink-0 rounded-lg border border-gray-300 bg-white px-4 py-2 text-sm font-medium text-gray-700 shadow-sm transition-colors hover:bg-gray-50"
+          >
+            More Stats
+          </button>
         </div>
       </div>
 
