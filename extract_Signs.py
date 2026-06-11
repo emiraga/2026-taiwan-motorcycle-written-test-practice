@@ -33,7 +33,7 @@ import pdfplumber
 from extract_common import clean_text, render_bbox, split_question
 
 ROOT = Path(__file__).parent
-PDF_PATH = ROOT.parent / "motorcycle-driving-test-temp" / "Signs_Multiple.pdf"
+PDF_PATH = ROOT.parent / "Signs_Multiple.pdf"
 OUT_PATH = ROOT / "public" / "Signs_Multiple.json"
 PIC_DIR = ROOT / "public" / "pictures"
 RENDER_DPI = 220

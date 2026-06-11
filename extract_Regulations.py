@@ -36,7 +36,7 @@ from extract_common import (
 )
 
 ROOT = Path(__file__).parent
-PDF_PATH = ROOT.parent / "motorcycle-driving-test-temp" / "Regulations_Multiple.pdf"
+PDF_PATH = ROOT.parent / "Regulations_Multiple.pdf"
 OUT_PATH = ROOT / "public" / "Regulations_Multiple.json"
 
 

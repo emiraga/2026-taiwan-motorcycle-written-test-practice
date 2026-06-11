@@ -28,7 +28,7 @@ from PIL import Image
 ROOT = Path(__file__).parent
 # Source PDFs live outside the repo (in a sibling temp dir) so the large
 # binaries aren't checked in; only the extracted JSON + JPEGs are.
-PDF_SRC = ROOT.parent / "motorcycle-driving-test-temp"
+PDF_SRC = ROOT.parent
 PDF_PATH = PDF_SRC / "Written_Test_Question_Bank.pdf"
 OUT_PATH = ROOT / "public" / "Written_Test_Question_Bank.json"
 PIC_DIR = ROOT / "public" / "pictures"
