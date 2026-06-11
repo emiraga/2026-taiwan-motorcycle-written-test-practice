@@ -23,6 +23,7 @@ import {
   loadLastBank,
   loadSecondarySort,
   loadSort,
+  loadStudyOnly,
   loadSyncSecret,
   mergeProgress,
   parseProgress,
@@ -30,8 +31,10 @@ import {
   saveLastBank,
   saveSecondarySort,
   saveSort,
+  saveStudyOnly,
   saveSyncSecret,
 } from "@/lib/storage";
+import { cn } from "@/lib/utils";
 import { syncBank } from "@/lib/sync";
 import { Controls } from "@/components/Controls";
 import { QuestionCard } from "@/components/QuestionCard";
@@ -65,6 +68,14 @@ function App() {
   };
   const [index, setIndex] = useState(0);
   const [showStats, setShowStats] = useState(false);
+  // "Study only" mode shows just the question and the correct answer, hiding the
+  // answer buttons, history, and result feedback — for reviewing rather than
+  // testing. Persisted like the other view settings.
+  const [studyOnly, setStudyOnly] = useState(loadStudyOnly);
+  const handleStudyOnlyChange = (next: boolean) => {
+    setStudyOnly(next);
+    saveStudyOnly(next);
+  };
 
   const { progress, recordAttempt, resetQuestion, resetAll, replaceProgress } =
     useProgress(bank);
@@ -297,6 +308,7 @@ function App() {
                 key={current.number}
                 question={current}
                 progress={progress.answers[current.number]}
+                studyOnly={studyOnly}
                 onAnswer={(answer, correct) =>
                   recordAttempt(current.number, answer, correct)
                 }
@@ -339,6 +351,19 @@ function App() {
           <div className="flex-1">
             <StatsBar stats={stats} />
           </div>
+          <button
+            type="button"
+            onClick={() => handleStudyOnlyChange(!studyOnly)}
+            aria-pressed={studyOnly}
+            className={cn(
+              "shrink-0 rounded-lg border px-4 py-2 text-sm font-medium shadow-sm transition-colors",
+              studyOnly
+                ? "border-blue-600 bg-blue-600 text-white hover:bg-blue-700"
+                : "border-gray-300 bg-white text-gray-700 hover:bg-gray-50",
+            )}
+          >
+            Study only mode
+          </button>
           <button
             type="button"
             onClick={() => setShowStats(true)}

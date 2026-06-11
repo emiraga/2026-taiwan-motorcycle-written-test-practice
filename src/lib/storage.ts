@@ -24,6 +24,7 @@ const SYNC_SECRET_KEY = "qbank:syncSecret";
 const FILTER_KEY = "qbank:filter";
 const SORT_KEY = "qbank:sort";
 const SECONDARY_SORT_KEY = "qbank:secondarySort";
+const STUDY_ONLY_KEY = "qbank:studyOnly";
 
 /**
  * Reads a remembered choice from localStorage, falling back to `fallback` when
@@ -103,6 +104,15 @@ export function loadSecondarySort(): SecondarySortMode {
 
 export function saveSecondarySort(sort: SecondarySortMode): void {
   saveChoice(SECONDARY_SORT_KEY, sort);
+}
+
+/** Whether "Study only" mode is enabled (defaults to off). */
+export function loadStudyOnly(): boolean {
+  return localStorage.getItem(STUDY_ONLY_KEY) === "true";
+}
+
+export function saveStudyOnly(value: boolean): void {
+  localStorage.setItem(STUDY_ONLY_KEY, String(value));
 }
 
 function emptyProgress(bank: string): BankProgress {

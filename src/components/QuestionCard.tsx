@@ -15,6 +15,12 @@ import {
 interface QuestionCardProps {
   question: Question;
   progress?: QuestionProgress;
+  /**
+   * "Study only" mode: reveal the correct answer immediately and hide all
+   * interactive/progress elements (answer buttons, "I don't know", result
+   * feedback, AI-explain links, attempt history, and status badges).
+   */
+  studyOnly?: boolean;
   onAnswer: (answer: AnswerValue, correct: boolean) => void;
   onReset: () => void;
   /** Advance to the next question. Omit on the last question. */
@@ -174,6 +180,7 @@ function AttemptHistory({
 export function QuestionCard({
   question,
   progress,
+  studyOnly = false,
   onAnswer,
   onReset,
   onNext,
@@ -239,13 +246,13 @@ export function QuestionCard({
   question.options.forEach((_, idx) => {
     const optionNumber = idx + 1;
     answerShortcuts[String(optionNumber)] = () => {
-      if (!revealed) answer(optionNumber);
+      if (!revealed && !studyOnly) answer(optionNumber);
     };
   });
   // "4" is the "I don't know" button (questions have at most 3 options, so it
   // never collides with an option shortcut).
   answerShortcuts["4"] = () => {
-    if (!revealed) answer("idk");
+    if (!revealed && !studyOnly) answer("idk");
   };
   useKeyboardShortcuts(answerShortcuts);
 
@@ -265,12 +272,16 @@ export function QuestionCard({
         >
           #
         </span>
-        <div className="flex items-center gap-2">
-          {wasEverIncorrect(progress) && (
-            <Badge className="bg-amber-100 text-amber-700">missed before</Badge>
-          )}
-          <StatusBadge progress={progress} />
-        </div>
+        {!studyOnly && (
+          <div className="flex items-center gap-2">
+            {wasEverIncorrect(progress) && (
+              <Badge className="bg-amber-100 text-amber-700">
+                missed before
+              </Badge>
+            )}
+            <StatusBadge progress={progress} />
+          </div>
+        )}
       </div>
 
       {question.pictures?.map((pic) => (
@@ -323,10 +334,13 @@ export function QuestionCard({
           const optionNumber = idx + 1; // options are 1-based
           const isCorrectOption = optionNumber === question.correct;
           const isSelectedOption = selected === optionNumber;
+          // Study mode reveals the correct answer up front; there is never a
+          // selection, so only the correct option is highlighted.
+          const showResult = revealed || studyOnly;
 
           let stateClass =
             "border-gray-200 bg-white hover:border-gray-300 hover:bg-gray-50";
-          if (revealed) {
+          if (showResult) {
             if (isCorrectOption) {
               stateClass = "border-green-400 bg-green-50 text-green-800";
             } else if (isSelectedOption) {
@@ -340,7 +354,7 @@ export function QuestionCard({
             <button
               key={optionNumber}
               type="button"
-              disabled={revealed}
+              disabled={showResult}
               onClick={() => answer(optionNumber)}
               className={cn(
                 "flex w-full items-center gap-3 rounded-lg border px-4 py-2.5 text-left text-sm transition-colors disabled:cursor-default",
@@ -350,13 +364,19 @@ export function QuestionCard({
               <span className="font-semibold text-gray-400">
                 {optionNumber}.
               </span>
-              <span>{option}</span>
-              {revealed && isCorrectOption && (
+              <span
+                className={cn(
+                  studyOnly && isCorrectOption && "text-lg font-semibold",
+                )}
+              >
+                {option}
+              </span>
+              {showResult && isCorrectOption && (
                 <span className="ml-auto text-xs font-semibold text-green-600">
                   correct answer
                 </span>
               )}
-              {revealed && isSelectedOption && !isCorrectOption && (
+              {showResult && isSelectedOption && !isCorrectOption && (
                 <span className="ml-auto text-xs font-semibold text-red-600">
                   your answer
                 </span>
@@ -366,7 +386,7 @@ export function QuestionCard({
         })}
       </div>
 
-      {revealed && (
+      {!studyOnly && revealed && (
         <div className="mt-4 flex items-center gap-2">
           <span className="text-xs font-medium text-gray-400">
             Explain with AI:
@@ -376,9 +396,12 @@ export function QuestionCard({
         </div>
       )}
 
-      {revealed && <AttemptHistory question={question} progress={progress} />}
+      {!studyOnly && revealed && (
+        <AttemptHistory question={question} progress={progress} />
+      )}
 
-      <div className="mt-4 flex items-center gap-3">
+      {!studyOnly && (
+        <div className="mt-4 flex items-center gap-3">
         {!revealed ? (
           <button
             type="button"
@@ -436,7 +459,8 @@ export function QuestionCard({
             )}
           </>
         )}
-      </div>
+        </div>
+      )}
     </li>
   );
 }
