@@ -10,7 +10,6 @@ import type {
 import {
   isLastIncorrect,
   isUnanswered,
-  lastAttempt,
   timesAnswered,
   wasEverIncorrect,
 } from "@/lib/progress";
@@ -21,6 +20,7 @@ import {
   exportFileName,
   loadFilter,
   loadLastBank,
+  loadProgress,
   loadSecondarySort,
   loadSort,
   loadStudyOnly,
@@ -29,11 +29,13 @@ import {
   parseProgress,
   saveFilter,
   saveLastBank,
+  saveProgress,
   saveSecondarySort,
   saveSort,
   saveStudyOnly,
   saveSyncSecret,
 } from "@/lib/storage";
+import { BANKS } from "@/lib/banks";
 import { cn } from "@/lib/utils";
 import { syncBank } from "@/lib/sync";
 import { Controls } from "@/components/Controls";
@@ -104,17 +106,44 @@ function App() {
     }
   };
 
+  // Returns the stored sync passphrase, prompting for and saving it on first
+  // use. Returns null if the user dismisses the prompt without entering one.
+  const ensureSyncSecret = (): string | null => {
+    const existing = loadSyncSecret();
+    if (existing) return existing;
+    const secret = window.prompt("Enter the sync passphrase")?.trim() ?? "";
+    if (!secret) return null;
+    saveSyncSecret(secret);
+    return secret;
+  };
+
   const handleSync = async () => {
     try {
-      let secret = loadSyncSecret();
-      if (!secret) {
-        secret = window.prompt("Enter the sync passphrase")?.trim() ?? "";
-        if (!secret) return;
-        saveSyncSecret(secret);
-      }
+      const secret = ensureSyncSecret();
+      if (!secret) return;
       const merged = await syncBank(progress, secret);
       replaceProgress(merged);
       window.alert("Sync complete.");
+    } catch (err) {
+      window.alert(err instanceof Error ? err.message : String(err));
+    }
+  };
+
+  // Sync every bank in one go. Each bank is handled the same way: read its
+  // progress fresh from localStorage (the source of truth — the active bank's
+  // in-memory state is already mirrored there on every change), sync it, and
+  // write the merged result back. The active bank additionally refreshes its
+  // in-memory state so the UI reflects the merge.
+  const handleSyncAll = async () => {
+    try {
+      const secret = ensureSyncSecret();
+      if (!secret) return;
+      for (const b of BANKS) {
+        const merged = await syncBank(loadProgress(b.id), secret);
+        saveProgress(merged);
+        if (b.id === bank) replaceProgress(merged);
+      }
+      window.alert("Sync All complete.");
     } catch (err) {
       window.alert(err instanceof Error ? err.message : String(err));
     }
@@ -249,18 +278,16 @@ function App() {
   });
 
   const stats = useMemo(() => {
-    if (!questions) return { total: 0, answered: 0, correctNow: 0, missed: 0 };
+    if (!questions) return { total: 0, answered: 0, answersGiven: 0 };
     let answered = 0;
-    let correctNow = 0;
-    let missed = 0;
+    let answersGiven = 0;
     for (const q of questions) {
       const p = progress.answers[q.number];
+      answersGiven += timesAnswered(p);
       if (isUnanswered(p)) continue;
       answered += 1;
-      if (lastAttempt(p)?.correct) correctNow += 1;
-      if (wasEverIncorrect(p)) missed += 1;
     }
-    return { total: questions.length, answered, correctNow, missed };
+    return { total: questions.length, answered, answersGiven };
   }, [questions, progress]);
 
   if (error) {
@@ -344,6 +371,7 @@ function App() {
             onExport={handleExport}
             onImport={handleImport}
             onSync={handleSync}
+            onSyncAll={handleSyncAll}
           />
         </div>
 

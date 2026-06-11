@@ -37,6 +37,7 @@ PDF_SRC = ROOT.parent
 PDF_PATH = PDF_SRC / "Hazard_Perception_Multiple.pdf"
 OUT_PATH = ROOT / "public" / "Hazard_Perception_Multiple.json"
 VIDEO_DIR = ROOT / "public" / "videos"
+INCLUDE_NON_EXISTING_VIDEOS = True
 
 
 def clean_text(text: str | None) -> str:
@@ -143,7 +144,7 @@ def main() -> None:
 
         entry["video_number"] = rq["video_number"]
         video_path = VIDEO_DIR / f"{rq['video_number']}.mp4"
-        if video_path.exists():
+        if video_path.exists() or INCLUDE_NON_EXISTING_VIDEOS:
             entry["video_file"] = f"videos/{rq['video_number']}.mp4"
         if rq["video_url"]:
             entry["video_url"] = rq["video_url"]

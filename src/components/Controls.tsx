@@ -20,6 +20,7 @@ interface ControlsProps {
   onExport: () => void;
   onImport: (file: File) => void;
   onSync: () => void;
+  onSyncAll: () => void;
 }
 
 const selectClass =
@@ -41,6 +42,7 @@ export function Controls({
   onExport,
   onImport,
   onSync,
+  onSyncAll,
 }: ControlsProps) {
   const fileInputRef = useRef<HTMLInputElement>(null);
 
@@ -67,42 +69,6 @@ export function Controls({
         Showing <span className="font-semibold text-gray-800">{shown}</span> of{" "}
         {total}
       </span>
-
-      <button
-        type="button"
-        onClick={onExport}
-        className={`${buttonClass} border-gray-300 bg-white text-gray-700 hover:bg-gray-50`}
-      >
-        Export
-      </button>
-
-      <input
-        ref={fileInputRef}
-        type="file"
-        accept="application/json,.json"
-        className="hidden"
-        onChange={(e) => {
-          const file = e.target.files?.[0];
-          if (file) onImport(file);
-          // Reset so selecting the same file again still fires onChange.
-          e.target.value = "";
-        }}
-      />
-      <button
-        type="button"
-        onClick={() => fileInputRef.current?.click()}
-        className={`${buttonClass} border-gray-300 bg-white text-gray-700 hover:bg-gray-50`}
-      >
-        Import
-      </button>
-
-      <button
-        type="button"
-        onClick={onSync}
-        className={`${buttonClass} border-blue-300 bg-blue-50 text-blue-700 hover:bg-blue-100`}
-      >
-        Sync
-      </button>
 
       <label className="flex flex-col gap-1">
         <span className="text-xs font-semibold uppercase tracking-wide text-gray-400">
@@ -139,6 +105,49 @@ export function Controls({
           ))}
         </select>
       </label>
+      <button
+        type="button"
+        onClick={onExport}
+        className={`${buttonClass} border-gray-300 bg-white text-gray-700 hover:bg-gray-50`}
+      >
+        Export
+      </button>
+
+      <input
+        ref={fileInputRef}
+        type="file"
+        accept="application/json,.json"
+        className="hidden"
+        onChange={(e) => {
+          const file = e.target.files?.[0];
+          if (file) onImport(file);
+          // Reset so selecting the same file again still fires onChange.
+          e.target.value = "";
+        }}
+      />
+      <button
+        type="button"
+        onClick={() => fileInputRef.current?.click()}
+        className={`${buttonClass} border-gray-300 bg-white text-gray-700 hover:bg-gray-50`}
+      >
+        Import
+      </button>
+
+      <button
+        type="button"
+        onClick={onSync}
+        className={`${buttonClass} border-blue-300 bg-blue-50 text-blue-700 hover:bg-blue-100`}
+      >
+        Sync
+      </button>
+
+      <button
+        type="button"
+        onClick={onSyncAll}
+        className={`${buttonClass} border-blue-300 bg-blue-50 text-blue-700 hover:bg-blue-100`}
+      >
+        Sync All
+      </button>
 
       <button
         type="button"

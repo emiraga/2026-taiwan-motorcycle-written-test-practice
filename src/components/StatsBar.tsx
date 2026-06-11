@@ -1,8 +1,7 @@
 export interface QuestionStats {
   total: number;
   answered: number;
-  correctNow: number;
-  missed: number;
+  answersGiven: number;
 }
 
 function Stat({ label, value }: { label: string; value: string | number }) {
@@ -18,11 +17,10 @@ function Stat({ label, value }: { label: string; value: string | number }) {
 
 export function StatsBar({ stats }: { stats: QuestionStats }) {
   return (
-    <div className="grid grid-cols-2 gap-3 sm:grid-cols-4">
+    <div className="grid grid-cols-3 gap-3">
       <Stat label="Total" value={stats.total} />
       <Stat label="Answered" value={stats.answered} />
-      <Stat label="Correct now" value={stats.correctNow} />
-      <Stat label="Missed ever" value={stats.missed} />
+      <Stat label="Answers given" value={stats.answersGiven} />
     </div>
   );
 }
