@@ -10,8 +10,9 @@
 
 Layout (see the first sample image in the task): a four-column table of
 ``Question number | Answer | Question Illustrations | Question``. The road-sign
-picture in column three *is* the prompt -- the Question column holds only the
-three ``(1)/(2)/(3)`` options, which name possible meanings of the sign.
+picture in column three is the visual prompt; the Question column holds the
+three ``(1)/(2)/(3)`` options plus, sometimes, a lead-in prompt (e.g. "The
+broken white line is a:") that we keep in ``question``.
 
 Every sign question is kept -- no de-duplication is applied here, because the
 sign picture is the real prompt and the option text alone is too ambiguous to
@@ -19,7 +20,7 @@ match reliably against the (text-only) master written-test bank.
 
 Each record::
 
-    {"number": N, "question": "", "options": [s, s, s], "correct": 1|2|3,
+    {"number": N, "question": prompt, "options": [s, s, s], "correct": 1|2|3,
      "pictures": ["pictures/sign_NNN_1.jpg", ...]}
 """
 
@@ -119,7 +120,7 @@ def main() -> None:
             out_number += 1
             pictures = _render(pdf, rq, out_number)
             try:
-                _prompt, options = split_question(rq["content"], rq["number"])
+                prompt, options = split_question(rq["content"], rq["number"])
             except ValueError as exc:
                 malformed.append({"number": rq["number"], "error": str(exc)})
                 entry = {
@@ -136,7 +137,7 @@ def main() -> None:
 
             entry = {
                 "number": out_number,
-                "question": "",
+                "question": prompt,
                 "options": options,
                 "correct": rq["correct"],
             }
