@@ -24,11 +24,12 @@ when the video-number cell carries a hyperlink in the PDF.
 """
 
 import json
-import re
 import sys
 from pathlib import Path
 
 import pdfplumber
+
+from extract_common import clean_text, split_question
 
 ROOT = Path(__file__).parent
 # Source PDF lives outside the repo (in a sibling temp dir) so the large
@@ -38,35 +39,6 @@ PDF_PATH = PDF_SRC / "Hazard_Perception_Multiple.pdf"
 OUT_PATH = ROOT / "public" / "Hazard_Perception_Multiple.json"
 VIDEO_DIR = ROOT / "public" / "videos"
 INCLUDE_NON_EXISTING_VIDEOS = True
-
-
-def clean_text(text: str | None) -> str:
-    if text is None:
-        return ""
-    text = text.replace("\r", "\n")
-    text = text.replace("\\ ", " ")
-    text = text.replace("\\'", "'").replace("\\$", "$")
-    return re.sub(r"\s+", " ", text).strip()
-
-
-OPTION_SPLIT = re.compile(r"\s*\(\s*([123])\s*\)\s*")
-
-
-def split_question(content: str, qno: int) -> tuple[str, list[str]]:
-    parts = OPTION_SPLIT.split(content)
-    if len(parts) < 7:
-        raise ValueError(f"Q{qno}: cannot find three options in: {content!r}")
-    prompt = parts[0].strip().rstrip(":：").strip()
-    options: list[str] = []
-    for idx, marker_idx in enumerate((1, 3, 5), start=1):
-        if parts[marker_idx] != str(idx):
-            raise ValueError(f"Q{qno}: option markers out of order in: {content!r}")
-        options.append(parts[marker_idx + 1].strip())
-    if len(parts) > 7:
-        tail = "".join(parts[7:]).strip()
-        if tail:
-            options[-1] = (options[-1] + " " + tail).strip()
-    return prompt, [opt.rstrip(".。 ").strip() for opt in options]
 
 
 def main() -> None:
@@ -81,7 +53,7 @@ def main() -> None:
                 h for h in page.hyperlinks if "thb.gov.tw" in (h.get("uri") or "")
             ]
 
-            for table in pdf.pages[page_idx - 1].find_tables():
+            for table in page.find_tables():
                 # Pair each extracted row with its geometry so we can attribute
                 # a video-number hyperlink to the row it sits in.
                 for row_obj, row_cells in zip(table.rows, table.extract()):

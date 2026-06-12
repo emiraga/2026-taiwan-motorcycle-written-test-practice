@@ -18,12 +18,12 @@ saved as JPEGs into ``pictures/`` to keep their on-disk size small.
 """
 
 import json
-import re
 import sys
 from pathlib import Path
 
 import pdfplumber
-from PIL import Image
+
+from extract_common import clean_text, render_bbox, split_question
 
 ROOT = Path(__file__).parent
 # Source PDFs live outside the repo (in a sibling temp dir) so the large
@@ -33,17 +33,6 @@ PDF_PATH = PDF_SRC / "Written_Test_Question_Bank.pdf"
 OUT_PATH = ROOT / "public" / "Written_Test_Question_Bank.json"
 PIC_DIR = ROOT / "public" / "pictures"
 RENDER_DPI = 220
-PIC_PADDING = 2  # pixels of padding around the cropped picture
-JPEG_QUALITY = 65  # JPEG encode quality (trades file size for fidelity)
-
-
-def clean_text(text: str | None) -> str:
-    if text is None:
-        return ""
-    text = text.replace("\r", "\n")
-    text = text.replace("\\ ", " ")
-    text = text.replace("\\'", "'").replace("\\$", "$")
-    return re.sub(r"\s+", " ", text).strip()
 
 
 # Manual overrides for questions whose option text is broken in the source PDF.
@@ -67,26 +56,6 @@ QUESTION_OVERRIDES: dict[int, dict] = {
         "correct": 2,
     },
 }
-
-OPTION_SPLIT = re.compile(r"\s*\(\s*([123])\s*\)\s*")
-
-
-def split_question(content: str, qno: int) -> tuple[str, list[str]]:
-    parts = OPTION_SPLIT.split(content)
-    if len(parts) < 7:
-        raise ValueError(f"Q{qno}: cannot find three options in: {content!r}")
-    prompt = parts[0].strip().rstrip(":：").strip()
-    options: list[str] = []
-    for idx, marker_idx in enumerate((1, 3, 5), start=1):
-        if parts[marker_idx] != str(idx):
-            raise ValueError(f"Q{qno}: option markers out of order in: {content!r}")
-        options.append(parts[marker_idx + 1].strip())
-    if len(parts) > 7:
-        tail = "".join(parts[7:]).strip()
-        if tail:
-            options[-1] = (options[-1] + " " + tail).strip()
-    return prompt, [opt.rstrip(".。 ").strip() for opt in options]
-
 
 def normalize_row(row: list) -> tuple[str, str, str] | None:
     cells = [(c if c is not None else "").strip() for c in row]
@@ -140,16 +109,6 @@ def main() -> None:
     with pdfplumber.open(PDF_PATH) as pdf:
         for page_idx, page in enumerate(pdf.pages, start=1):
             tables = page.find_tables()
-            # Pre-render the page once if it has any images we might need.
-            page_image = None
-
-            def ensure_page_image():
-                nonlocal page_image
-                if page_image is None:
-                    page_image = page.to_image(resolution=RENDER_DPI).original
-                return page_image
-
-            scale = RENDER_DPI / 72.0
 
             # Build a flat list of (row_bbox, content_cell_bbox, row_cells) for
             # every row in every table on this page, in reading order.
@@ -321,25 +280,8 @@ def main() -> None:
 
 def _save_image(page, bbox: tuple[float, float, float, float], qno: int, idx: int) -> str:
     """Render the bbox region of `page` and save as a JPEG. Returns relative path."""
-    scale = RENDER_DPI / 72.0
-    x0, y0, x1, y1 = bbox
-    px0 = max(0, int(x0 * scale) - PIC_PADDING)
-    py0 = max(0, int(y0 * scale) - PIC_PADDING)
-    px1 = int(x1 * scale) + PIC_PADDING
-    py1 = int(y1 * scale) + PIC_PADDING
-    pil = page.to_image(resolution=RENDER_DPI).original
-    crop = pil.crop((px0, py0, px1, py1))
-    # JPEG has no alpha channel; flatten any transparency onto white so it
-    # doesn't render as black.
-    if crop.mode in ("RGBA", "LA", "P"):
-        crop = crop.convert("RGBA")
-        background = Image.new("RGB", crop.size, (255, 255, 255))
-        background.paste(crop, mask=crop.split()[-1])
-        crop = background
-    elif crop.mode != "RGB":
-        crop = crop.convert("RGB")
     name = f"q{qno:03d}_{idx}.jpg"
-    crop.save(PIC_DIR / name, quality=JPEG_QUALITY, optimize=True)
+    render_bbox(page, bbox, PIC_DIR / name, dpi=RENDER_DPI)
     return f"pictures/{name}"
 
 

@@ -1,9 +1,13 @@
 """Shared helpers for the motorcycle question-bank extractors.
 
-``extract_Signs.py`` and ``extract_Regulations.py`` both pull a question bank
-out of a PDF table and then drop any question that already exists in the master
-``public/Written_Test_Question_Bank.json``. The parsing/cleaning helpers and the
-duplicate detection live here so the two extractors stay small and consistent.
+The four ``extract_*.py`` scripts (Written_Test, Signs, Regulations and
+Hazard_Perception) all pull a question bank out of a PDF table, split each
+``"prompt (1) a (2) b (3) c"`` cell into a prompt plus three options, and undo
+the PDF's stray escapes. Those parsing/cleaning helpers (and the picture
+rendering in :func:`render_bbox`) live here so the extractors stay small and
+consistent. :class:`DuplicateIndex` additionally lets ``extract_Regulations.py``
+drop any question already present in the master
+``public/Written_Test_Question_Bank.json``.
 
 This module is plain stdlib (``re``/``json``/``difflib``); the optional picture
 rendering in :func:`render_bbox` imports Pillow lazily so a text-only extractor
