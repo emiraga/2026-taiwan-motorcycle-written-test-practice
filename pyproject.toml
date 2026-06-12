@@ -11,6 +11,7 @@ dependencies = [
 
 [dependency-groups]
 dev = [
+    "pyrefly>=1.0",
     "pyright>=1.1.390",
     "ruff>=0.8",
 ]
