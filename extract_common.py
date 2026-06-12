@@ -27,11 +27,12 @@ WRITTEN_BANK = ROOT / "public" / "Written_Test_Question_Bank.json"
 
 # Words too common to carry meaning; dropped before token-overlap comparison so
 # that a reworded question still matches on its distinctive content words.
-_STOPWORDS = frozenset(
+_STOPWORD_TEXT = (
     "the a an of to is are be in on at for and or it you your they their we i as "
     "with that this an its will should must can may a an be been has have do does "
-    "if when what which who how".split()
+    "if when what which who how"
 )
+_STOPWORDS = frozenset(_STOPWORD_TEXT.split())
 
 
 def clean_text(text: str | None) -> str:

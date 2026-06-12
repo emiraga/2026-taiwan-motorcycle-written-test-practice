@@ -48,7 +48,7 @@ def main() -> None:
             for table in page.find_tables():
                 # Pair each extracted row with its geometry so we can attribute
                 # a video-number hyperlink to the row it sits in.
-                for row_obj, row_cells in zip(table.rows, table.extract()):
+                for row_obj, row_cells in zip(table.rows, table.extract(), strict=True):
                     cells = [(c if c is not None else "").strip() for c in row_cells]
                     if len(cells) < 4:
                         continue

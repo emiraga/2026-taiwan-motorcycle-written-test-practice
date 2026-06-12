@@ -109,7 +109,7 @@ def main() -> None:
             page_rows: list[tuple[tuple, tuple, list]] = []
             for table in tables:
                 extracted = table.extract()
-                for row_obj, row_cells in zip(table.rows, extracted):
+                for row_obj, row_cells in zip(table.rows, extracted, strict=True):
                     # The content column is the widest cell in the row.
                     cells = row_obj.cells
                     widest = max(
