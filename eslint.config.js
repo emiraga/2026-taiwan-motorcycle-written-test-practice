@@ -8,7 +8,7 @@ import tseslintParser from '@typescript-eslint/parser'
 
 export default [
   {
-    ignores: ['dist/**', 'tailwind.config.js'],
+    ignores: ['dist/**', 'tailwind.config.js', '.venv/**'],
   },
   {
     files: ['**/*.{ts,tsx}'],
