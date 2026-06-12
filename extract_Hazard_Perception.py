@@ -1,10 +1,4 @@
-#!/usr/bin/env -S uv run --script
-# /// script
-# requires-python = ">=3.11"
-# dependencies = [
-#   "pdfplumber>=0.11",
-# ]
-# ///
+#!/usr/bin/env -S uv run --
 """Extract the motorcycle hazard-perception question bank (text only) to JSON.
 
 Unlike ``extract_Written_Test.py`` this bank has no embedded pictures, but each
@@ -49,9 +43,7 @@ def main() -> None:
         for page_idx, page in enumerate(pdf.pages, start=1):
             # Hyperlinks that point at an actual video download. The instruction
             # banner on page 1 also carries a reurl.cc link, which we ignore.
-            video_links = [
-                h for h in page.hyperlinks if "thb.gov.tw" in (h.get("uri") or "")
-            ]
+            video_links = [h for h in page.hyperlinks if "thb.gov.tw" in (h.get("uri") or "")]
 
             for table in page.find_tables():
                 # Pair each extracted row with its geometry so we can attribute
@@ -123,9 +115,7 @@ def main() -> None:
         questions.append(entry)
 
     OUT_PATH.write_text(
-        json.dumps(
-            {"questions": questions}, ensure_ascii=False, separators=(",", ":")
-        )
+        json.dumps({"questions": questions}, ensure_ascii=False, separators=(",", ":"))
     )
     with_files = sum(1 for q in questions if q.get("video_file"))
     with_urls = sum(1 for q in questions if q.get("video_url"))

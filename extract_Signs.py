@@ -1,11 +1,4 @@
-#!/usr/bin/env -S uv run --script
-# /// script
-# requires-python = ">=3.11"
-# dependencies = [
-#   "pdfplumber>=0.11",
-#   "Pillow>=10",
-# ]
-# ///
+#!/usr/bin/env -S uv run --
 """Extract the motorcycle "Signs" question bank (text + sign pictures) to JSON.
 
 Layout (see the first sample image in the task): a four-column table of
@@ -51,7 +44,7 @@ def parse_raw(pdf) -> list[dict]:
     for page_idx, page in enumerate(pdf.pages, start=1):
         for table in page.find_tables():
             extracted = table.extract()
-            for row_obj, row_cells in zip(table.rows, extracted):
+            for row_obj, row_cells in zip(table.rows, extracted, strict=True):
                 cells = [clean_text(c) for c in row_cells]
                 if len(cells) < 4:
                     continue
@@ -150,8 +143,7 @@ def main() -> None:
     )
     with_pics = sum(1 for q in questions if q.get("pictures"))
     print(
-        f"Signs: wrote {len(questions)} questions ({with_pics} with pictures) "
-        f"to {OUT_PATH.name}",
+        f"Signs: wrote {len(questions)} questions ({with_pics} with pictures) to {OUT_PATH.name}",
         file=sys.stderr,
     )
     if malformed:

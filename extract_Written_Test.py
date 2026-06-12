@@ -1,11 +1,4 @@
-#!/usr/bin/env -S uv run --script
-# /// script
-# requires-python = ">=3.11"
-# dependencies = [
-#   "pdfplumber>=0.11",
-#   "Pillow>=10",
-# ]
-# ///
+#!/usr/bin/env -S uv run --
 """Extract motorcycle license question bank (text + embedded images) to JSON.
 
 For each question, the JSON record looks like::
@@ -56,6 +49,7 @@ QUESTION_OVERRIDES: dict[int, dict] = {
         "correct": 2,
     },
 }
+
 
 def normalize_row(row: list) -> tuple[str, str, str] | None:
     cells = [(c if c is not None else "").strip() for c in row]
@@ -120,7 +114,7 @@ def main() -> None:
                     cells = row_obj.cells
                     widest = max(
                         (c for c in cells if c is not None),
-                        key=lambda c: (c[2] - c[0]),
+                        key=lambda c: c[2] - c[0],
                     )
                     page_rows.append((row_obj.bbox, widest, row_cells))
 
@@ -158,9 +152,7 @@ def main() -> None:
                 if no_clean.isdigit() and ans_clean in {"1", "2", "3"}:
                     number = int(no_clean)
                     if number != expected_no:
-                        raise ValueError(
-                            f"Page {page_idx}: expected Q{expected_no}, got Q{number}"
-                        )
+                        raise ValueError(f"Page {page_idx}: expected Q{expected_no}, got Q{number}")
                     raw_questions.append(
                         {
                             "number": number,
@@ -180,13 +172,23 @@ def main() -> None:
                             target = raw_questions[-2]
                             for src_page, bbox in pending_images:
                                 target["pictures"].append(
-                                    _save_image(pdf.pages[src_page - 1], bbox, target["number"], len(target["pictures"]) + 1)
+                                    _save_image(
+                                        pdf.pages[src_page - 1],
+                                        bbox,
+                                        target["number"],
+                                        len(target["pictures"]) + 1,
+                                    )
                                 )
                         pending_images.clear()
 
                     for bbox in imgs:
                         raw_questions[-1]["pictures"].append(
-                            _save_image(page, bbox, raw_questions[-1]["number"], len(raw_questions[-1]["pictures"]) + 1)
+                            _save_image(
+                                page,
+                                bbox,
+                                raw_questions[-1]["number"],
+                                len(raw_questions[-1]["pictures"]) + 1,
+                            )
                         )
                     continue
 
@@ -207,9 +209,7 @@ def main() -> None:
                     or "Question Content" in content_clean
                 ):
                     continue
-                raise ValueError(
-                    f"Page {page_idx}: unrecognized row: {row_cells!r}"
-                )
+                raise ValueError(f"Page {page_idx}: unrecognized row: {row_cells!r}")
 
     # Final parse pass.
     questions: list[dict] = []
@@ -261,9 +261,7 @@ def main() -> None:
         questions.append(entry)
 
     OUT_PATH.write_text(
-        json.dumps(
-            {"questions": questions}, ensure_ascii=False, separators=(",", ":")
-        )
+        json.dumps({"questions": questions}, ensure_ascii=False, separators=(",", ":"))
     )
     total_pictures = sum(len(q.get("pictures", [])) for q in questions)
     qs_with_pictures = sum(1 for q in questions if q.get("pictures"))

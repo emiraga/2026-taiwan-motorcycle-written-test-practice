@@ -1,10 +1,4 @@
-#!/usr/bin/env -S uv run --script
-# /// script
-# requires-python = ">=3.11"
-# dependencies = [
-#   "pdfplumber>=0.11",
-# ]
-# ///
+#!/usr/bin/env -S uv run --
 """Extract the motorcycle "Regulations" question bank (text only) to JSON.
 
 Layout (see the second sample image in the task): a three-column table of
@@ -57,9 +51,7 @@ def parse_raw(pdf) -> list[dict]:
                     continue
 
                 if number.isdigit() and answer in {"1", "2", "3"}:
-                    raw.append(
-                        {"number": int(number), "correct": int(answer), "content": content}
-                    )
+                    raw.append({"number": int(number), "correct": int(answer), "content": content})
                     continue
 
                 # Continuation row: the prompt/options wrapped onto a new line.
@@ -145,7 +137,10 @@ def main() -> None:
     if borderline:
         print(f"  {len(borderline)} lower-confidence removals (review):", file=sys.stderr)
         for src_no, score, prompt, wb_no in borderline:
-            print(f"    Q{src_no} (score {score:.2f} ~ written #{wb_no}): {prompt[:70]}", file=sys.stderr)
+            print(
+                f"    Q{src_no} (score {score:.2f} ~ written #{wb_no}): {prompt[:70]}",
+                file=sys.stderr,
+            )
     if malformed:
         print(f"  {len(malformed)} malformed (source PDF defects):", file=sys.stderr)
         for m in malformed:

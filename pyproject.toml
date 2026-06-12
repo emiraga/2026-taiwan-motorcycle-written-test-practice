@@ -1,0 +1,43 @@
+[project]
+name = "motorcycle-extractors"
+version = "0.1.0"
+description = "PDF question-bank extractors for the motorcycle driving-test study app"
+readme = "README.md"
+requires-python = ">=3.11"
+dependencies = [
+    "pdfplumber>=0.11",
+    "Pillow>=10",
+]
+
+[dependency-groups]
+dev = [
+    "pyright>=1.1.390",
+    "ruff>=0.8",
+]
+
+# The extractors are standalone scripts at the repo root, not an installable
+# package, so tell uv to provision a virtualenv with the dependencies without
+# trying to build/install this project itself.
+[tool.uv]
+package = false
+
+[tool.ruff]
+line-length = 100
+target-version = "py311"
+
+[tool.ruff.lint]
+select = [
+    "E",   # pycodestyle errors
+    "F",   # pyflakes
+    "I",   # isort
+    "UP",  # pyupgrade
+    "B",   # flake8-bugbear
+    "SIM", # flake8-simplify
+]
+
+[tool.pyright]
+include = ["extract_common.py", "extract_Hazard_Perception.py", "extract_Regulations.py", "extract_Signs.py", "extract_Written_Test.py"]
+pythonVersion = "3.11"
+typeCheckingMode = "basic"
+# pdfplumber ships no type stubs; don't fail on its missing/partial types.
+reportMissingTypeStubs = false

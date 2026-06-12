@@ -51,9 +51,7 @@ def normalize(s: str) -> str:
 
 def content_tokens(text: str) -> frozenset[str]:
     """Distinctive lowercase word tokens of ``text`` (stopwords removed)."""
-    return frozenset(
-        w for w in re.findall(r"[a-z0-9]+", text.lower()) if w not in _STOPWORDS
-    )
+    return frozenset(w for w in re.findall(r"[a-z0-9]+", text.lower()) if w not in _STOPWORDS)
 
 
 def ratio(a: str, b: str) -> float:
@@ -113,8 +111,8 @@ class DuplicateIndex:
 
     # Aggressive + remove-biased text thresholds (see class doc).
     TEXT_SCORE_THRESHOLD = 0.32  # combined 0.6*tokens + 0.4*options
-    TEXT_OPT_ESCAPE = 0.85       # options near-identical -> duplicate
-    TEXT_TOKEN_ESCAPE = 0.50     # content near-identical -> duplicate
+    TEXT_OPT_ESCAPE = 0.85  # options near-identical -> duplicate
+    TEXT_TOKEN_ESCAPE = 0.50  # content near-identical -> duplicate
 
     def __init__(self, bank_path: Path = WRITTEN_BANK):
         data = json.loads(Path(bank_path).read_text())
@@ -125,9 +123,7 @@ class DuplicateIndex:
             if len(opts) != 3:
                 continue
             ok = option_key(opts)
-            self._text.append(
-                (content_tokens(q.get("question", "") + " " + " ".join(opts)), ok, q)
-            )
+            self._text.append((content_tokens(q.get("question", "") + " " + " ".join(opts)), ok, q))
 
     def text_duplicate(self, prompt: str, options: list[str]):
         """Return ``(written_q, score)`` for the best text match, or ``None``.
