@@ -6,12 +6,16 @@
   "scripts": {
     "dev": "vite",
     "build": "tsc && vite build",
-    "lint": "eslint . --ext ts,tsx --report-unused-disable-directives --max-warnings 0",
+    "lint": "eslint . --ext ts,tsx --report-unused-disable-directives --max-warnings 0 && pnpm py:lint && pnpm py:typecheck",
     "test": "vitest run",
     "test:watch": "vitest",
     "preview": "vite preview",
     "pages:dev": "pnpm build && wrangler pages dev",
-    "deploy": "pnpm build && wrangler pages deploy"
+    "deploy": "pnpm build && wrangler pages deploy",
+    "extract": "./all.sh",
+    "py:lint": "uv run ruff check . && uv run ruff format --check .",
+    "py:format": "uv run ruff format .",
+    "py:typecheck": "uv run pyright"
   },
   "dependencies": {
     "clsx": "^2.1.1",

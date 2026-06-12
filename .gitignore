@@ -29,4 +29,8 @@ public/videos/*.mp4
 # Cloudflare / Wrangler
 .wrangler
 .dev.vars
+
+# Python (uv extractors)
 __pycache__
+.venv
+.ruff_cache
