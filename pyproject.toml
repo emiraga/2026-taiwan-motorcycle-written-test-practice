@@ -35,6 +35,13 @@ select = [
     "SIM", # flake8-simplify
 ]
 
+# The extractors live at the repo root, but Pyrefly otherwise infers a "src
+# layout" import root from the TypeScript frontend's src/ dir. Point it at the
+# repo root and limit it to the extractor scripts.
+[tool.pyrefly]
+search-path = ["."]
+project-includes = ["extract_*.py"]
+
 [tool.pyright]
 include = ["extract_common.py", "extract_Hazard_Perception.py", "extract_Regulations.py", "extract_Signs.py", "extract_Written_Test.py"]
 pythonVersion = "3.11"
