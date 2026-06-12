@@ -19,6 +19,7 @@ from __future__ import annotations
 import difflib
 import json
 import re
+from functools import lru_cache
 from pathlib import Path
 
 ROOT = Path(__file__).parent
@@ -158,6 +159,21 @@ class DuplicateIndex:
         return None
 
 
+@lru_cache(maxsize=4)
+def _render_page(page, dpi: int):
+    """Rasterize a whole pdfplumber ``page`` to a PIL image (cached per page+dpi).
+
+    pdfplumber re-renders the entire page on every ``to_image`` call, and a
+    single question often has several pictures on the same page, so cropping each
+    one from a freshly rendered page would rasterize that page many times over.
+    Memoizing keeps each page's bitmap around for its remaining crops. The
+    extractors walk pages in order (touching at most the current page plus, during
+    cross-page picture spillover, the previous one), so a tiny ``maxsize`` hits on
+    every crop while bounding memory -- a 220-DPI page bitmap is ~13 MB.
+    """
+    return page.to_image(resolution=dpi).original
+
+
 def render_bbox(
     page,
     bbox: tuple[float, float, float, float],
@@ -176,7 +192,7 @@ def render_bbox(
     py0 = max(0, int(y0 * scale) - padding)
     px1 = int(x1 * scale) + padding
     py1 = int(y1 * scale) + padding
-    crop = page.to_image(resolution=dpi).original.crop((px0, py0, px1, py1))
+    crop = _render_page(page, dpi).crop((px0, py0, px1, py1))
     # JPEG has no alpha; flatten transparency onto white so it doesn't go black.
     if crop.mode in ("RGBA", "LA", "P"):
         crop = crop.convert("RGBA")
