@@ -70,6 +70,8 @@ export function Controls({
         {total}
       </span>
 
+      <div className="w-full basis-full" />
+
       <label className="flex flex-col gap-1">
         <span className="text-xs font-semibold uppercase tracking-wide text-gray-400">
           Sort by
@@ -105,6 +107,8 @@ export function Controls({
           ))}
         </select>
       </label>
+      <div className="w-full basis-full" />
+
       <button
         type="button"
         onClick={onExport}
