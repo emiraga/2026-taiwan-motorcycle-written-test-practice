@@ -46,6 +46,9 @@ export type FilterMode =
   | "incorrectEver"
   | "srsDue";
 
+/** A second, independent filter applied on top of {@link FilterMode}. */
+export type SecondaryFilterMode = "none" | "notAnsweredToday";
+
 export type SortMode =
   | "sequence"
   | "leastAnswered"

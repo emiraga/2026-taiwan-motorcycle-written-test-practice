@@ -4,10 +4,12 @@ import type {
   FilterMode,
   Question,
   QuestionBank,
+  SecondaryFilterMode,
   SecondarySortMode,
   SortMode,
 } from "@/types";
 import {
+  answeredToday,
   isLastIncorrect,
   isUnanswered,
   timesAnswered,
@@ -21,6 +23,7 @@ import {
   loadFilter,
   loadLastBank,
   loadProgress,
+  loadSecondaryFilter,
   loadSecondarySort,
   loadSort,
   loadStudyOnly,
@@ -30,6 +33,7 @@ import {
   saveFilter,
   saveLastBank,
   saveProgress,
+  saveSecondaryFilter,
   saveSecondarySort,
   saveSort,
   saveStudyOnly,
@@ -50,6 +54,8 @@ function App() {
   const [questions, setQuestions] = useState<Question[] | null>(null);
   const [error, setError] = useState<string | null>(null);
   const [filter, setFilter] = useState<FilterMode>(loadFilter);
+  const [secondaryFilter, setSecondaryFilter] =
+    useState<SecondaryFilterMode>(loadSecondaryFilter);
   const [sort, setSort] = useState<SortMode>(loadSort);
   const [secondarySort, setSecondarySort] =
     useState<SecondarySortMode>(loadSecondarySort);
@@ -59,6 +65,10 @@ function App() {
   const handleFilterChange = (next: FilterMode) => {
     setFilter(next);
     saveFilter(next);
+  };
+  const handleSecondaryFilterChange = (next: SecondaryFilterMode) => {
+    setSecondaryFilter(next);
+    saveSecondaryFilter(next);
   };
   const handleSortChange = (next: SortMode) => {
     setSort(next);
@@ -193,6 +203,10 @@ function App() {
     const now = Date.now();
     const list = questions.filter((q) => {
       const p = progress.answers[q.number];
+      // The secondary filter is applied on top of (AND-ed with) the primary one.
+      if (secondaryFilter === "notAnsweredToday" && answeredToday(p, now)) {
+        return false;
+      }
       switch (filter) {
         case "unanswered":
           return isUnanswered(p);
@@ -252,7 +266,7 @@ function App() {
   // on every progress update. Adjust state during render, as recommended over
   // an effect.
   const [filtered, setFiltered] = useState<Question[]>(buildList);
-  const view = `${filter}|${sort}|${secondarySort}`;
+  const view = `${filter}|${secondaryFilter}|${sort}|${secondarySort}`;
   const [lastView, setLastView] = useState(view);
   const [lastQuestions, setLastQuestions] = useState(questions);
   if (view !== lastView || questions !== lastQuestions) {
@@ -352,9 +366,11 @@ function App() {
         <div className="mb-6">
           <Controls
             filter={filter}
+            secondaryFilter={secondaryFilter}
             sort={sort}
             secondarySort={secondarySort}
             onFilterChange={handleFilterChange}
+            onSecondaryFilterChange={handleSecondaryFilterChange}
             onSortChange={handleSortChange}
             onSecondarySortChange={handleSecondarySortChange}
             shown={filtered.length}

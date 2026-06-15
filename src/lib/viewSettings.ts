@@ -1,4 +1,9 @@
-import type { FilterMode, SecondarySortMode, SortMode } from "@/types";
+import type {
+  FilterMode,
+  SecondaryFilterMode,
+  SecondarySortMode,
+  SortMode,
+} from "@/types";
 
 /** A single `<option>` in one of the filter/sort dropdowns. */
 export interface SelectOption<T extends string> {
@@ -14,6 +19,11 @@ export const FILTER_OPTIONS: SelectOption<FilterMode>[] = [
   { value: "srsDue", label: "Due for review (spaced repetition)" },
 ];
 
+export const SECONDARY_FILTER_OPTIONS: SelectOption<SecondaryFilterMode>[] = [
+  { value: "none", label: "Nothing" },
+  { value: "notAnsweredToday", label: "Not answered today" },
+];
+
 export const SORT_OPTIONS: SelectOption<SortMode>[] = [
   { value: "sequence", label: "Sequence number" },
   { value: "leastAnswered", label: "Least number of times answered" },
@@ -27,5 +37,6 @@ export const SECONDARY_SORT_OPTIONS: SelectOption<SecondarySortMode>[] = [
 ];
 
 export const DEFAULT_FILTER: FilterMode = "all";
+export const DEFAULT_SECONDARY_FILTER: SecondaryFilterMode = "none";
 export const DEFAULT_SORT: SortMode = "leastAnswered";
 export const DEFAULT_SECONDARY_SORT: SecondarySortMode = "random";

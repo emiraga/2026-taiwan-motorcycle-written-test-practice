@@ -1,11 +1,19 @@
-import type { BankProgress, FilterMode, SecondarySortMode, SortMode } from "@/types";
+import type {
+  BankProgress,
+  FilterMode,
+  SecondaryFilterMode,
+  SecondarySortMode,
+  SortMode,
+} from "@/types";
 import { BANKS, DEFAULT_BANK } from "@/lib/banks";
 import { isBankProgress } from "@/lib/merge";
 import {
   DEFAULT_FILTER,
+  DEFAULT_SECONDARY_FILTER,
   DEFAULT_SECONDARY_SORT,
   DEFAULT_SORT,
   FILTER_OPTIONS,
+  SECONDARY_FILTER_OPTIONS,
   SECONDARY_SORT_OPTIONS,
   SORT_OPTIONS,
 } from "@/lib/viewSettings";
@@ -22,6 +30,7 @@ function storageKey(bank: string): string {
 const LAST_BANK_KEY = "qbank:lastBank";
 const SYNC_SECRET_KEY = "qbank:syncSecret";
 const FILTER_KEY = "qbank:filter";
+const SECONDARY_FILTER_KEY = "qbank:secondaryFilter";
 const SORT_KEY = "qbank:sort";
 const SECONDARY_SORT_KEY = "qbank:secondarySort";
 const STUDY_ONLY_KEY = "qbank:studyOnly";
@@ -78,6 +87,19 @@ export function loadFilter(): FilterMode {
 
 export function saveFilter(filter: FilterMode): void {
   saveChoice(FILTER_KEY, filter);
+}
+
+/** The most recently used secondary filter, or its default if none/invalid. */
+export function loadSecondaryFilter(): SecondaryFilterMode {
+  return loadChoice(
+    SECONDARY_FILTER_KEY,
+    SECONDARY_FILTER_OPTIONS.map((o) => o.value),
+    DEFAULT_SECONDARY_FILTER,
+  );
+}
+
+export function saveSecondaryFilter(filter: SecondaryFilterMode): void {
+  saveChoice(SECONDARY_FILTER_KEY, filter);
 }
 
 /** The most recently used sort, or its default if none/invalid is stored. */

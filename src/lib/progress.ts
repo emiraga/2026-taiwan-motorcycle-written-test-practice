@@ -24,3 +24,23 @@ export function wasEverIncorrect(progress?: QuestionProgress): boolean {
 export function timesAnswered(progress?: QuestionProgress): number {
   return attemptsOf(progress).length;
 }
+
+/**
+ * Whether the question was answered at least once on the same local calendar
+ * day as `now`. `now` is passed in (rather than read here) so a whole filtered
+ * snapshot shares one consistent "today".
+ */
+export function answeredToday(
+  progress: QuestionProgress | undefined,
+  now: number,
+): boolean {
+  const today = new Date(now);
+  return attemptsOf(progress).some((a) => {
+    const d = new Date(a.timestamp);
+    return (
+      d.getFullYear() === today.getFullYear() &&
+      d.getMonth() === today.getMonth() &&
+      d.getDate() === today.getDate()
+    );
+  });
+}

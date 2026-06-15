@@ -1,17 +1,25 @@
 import { useRef } from "react";
 
-import type { FilterMode, SecondarySortMode, SortMode } from "@/types";
+import type {
+  FilterMode,
+  SecondaryFilterMode,
+  SecondarySortMode,
+  SortMode,
+} from "@/types";
 import {
   FILTER_OPTIONS,
+  SECONDARY_FILTER_OPTIONS,
   SECONDARY_SORT_OPTIONS,
   SORT_OPTIONS,
 } from "@/lib/viewSettings";
 
 interface ControlsProps {
   filter: FilterMode;
+  secondaryFilter: SecondaryFilterMode;
   sort: SortMode;
   secondarySort: SecondarySortMode;
   onFilterChange: (filter: FilterMode) => void;
+  onSecondaryFilterChange: (filter: SecondaryFilterMode) => void;
   onSortChange: (sort: SortMode) => void;
   onSecondarySortChange: (sort: SecondarySortMode) => void;
   shown: number;
@@ -31,9 +39,11 @@ const buttonClass =
 
 export function Controls({
   filter,
+  secondaryFilter,
   sort,
   secondarySort,
   onFilterChange,
+  onSecondaryFilterChange,
   onSortChange,
   onSecondarySortChange,
   shown,
@@ -58,6 +68,25 @@ export function Controls({
           onChange={(e) => onFilterChange(e.target.value as FilterMode)}
         >
           {FILTER_OPTIONS.map((o) => (
+            <option key={o.value} value={o.value}>
+              {o.label}
+            </option>
+          ))}
+        </select>
+      </label>
+
+      <label className="flex flex-col gap-1">
+        <span className="text-xs font-semibold uppercase tracking-wide text-gray-400">
+          And
+        </span>
+        <select
+          className={selectClass}
+          value={secondaryFilter}
+          onChange={(e) =>
+            onSecondaryFilterChange(e.target.value as SecondaryFilterMode)
+          }
+        >
+          {SECONDARY_FILTER_OPTIONS.map((o) => (
             <option key={o.value} value={o.value}>
               {o.label}
             </option>
