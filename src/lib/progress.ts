@@ -26,6 +26,16 @@ export function timesAnswered(progress?: QuestionProgress): number {
 }
 
 /**
+ * Whether the last three answers were all correct, which requires at least
+ * three attempts. Used to single out "mastered" questions so they can be
+ * filtered out when reviewing.
+ */
+export function lastThreeAllCorrect(progress?: QuestionProgress): boolean {
+  const attempts = attemptsOf(progress);
+  return attempts.length >= 3 && attempts.slice(-3).every((a) => a.correct);
+}
+
+/**
  * Whether the question was answered at least once on the same local calendar
  * day as `now`. `now` is passed in (rather than read here) so a whole filtered
  * snapshot shares one consistent "today".

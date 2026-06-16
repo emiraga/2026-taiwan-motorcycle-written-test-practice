@@ -12,6 +12,7 @@ import {
   answeredToday,
   isLastIncorrect,
   isUnanswered,
+  lastThreeAllCorrect,
   timesAnswered,
   wasEverIncorrect,
 } from "@/lib/progress";
@@ -205,6 +206,9 @@ function App() {
       const p = progress.answers[q.number];
       // The secondary filter is applied on top of (AND-ed with) the primary one.
       if (secondaryFilter === "notAnsweredToday" && answeredToday(p, now)) {
+        return false;
+      }
+      if (secondaryFilter === "lastThreeNotCorrect" && lastThreeAllCorrect(p)) {
         return false;
       }
       switch (filter) {

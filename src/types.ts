@@ -47,7 +47,10 @@ export type FilterMode =
   | "srsDue";
 
 /** A second, independent filter applied on top of {@link FilterMode}. */
-export type SecondaryFilterMode = "none" | "notAnsweredToday";
+export type SecondaryFilterMode =
+  | "none"
+  | "notAnsweredToday"
+  | "lastThreeNotCorrect";
 
 export type SortMode =
   | "sequence"

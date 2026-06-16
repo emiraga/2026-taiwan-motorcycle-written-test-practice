@@ -22,6 +22,7 @@ export const FILTER_OPTIONS: SelectOption<FilterMode>[] = [
 export const SECONDARY_FILTER_OPTIONS: SelectOption<SecondaryFilterMode>[] = [
   { value: "none", label: "Nothing" },
   { value: "notAnsweredToday", label: "Not answered today" },
+  { value: "lastThreeNotCorrect", label: "Last 3 answers not all correct" },
 ];
 
 export const SORT_OPTIONS: SelectOption<SortMode>[] = [
