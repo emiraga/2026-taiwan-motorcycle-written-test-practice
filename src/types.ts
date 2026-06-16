@@ -44,6 +44,7 @@ export type FilterMode =
   | "unanswered"
   | "lastIncorrect"
   | "incorrectEver"
+  | "incorrectMultiple"
   | "srsDue";
 
 /** A second, independent filter applied on top of {@link FilterMode}. */

@@ -21,6 +21,13 @@ export function wasEverIncorrect(progress?: QuestionProgress): boolean {
   return attemptsOf(progress).some((a) => !a.correct);
 }
 
+/** Whether the question was answered incorrectly more than once. */
+export function wasIncorrectMultipleTimes(
+  progress?: QuestionProgress,
+): boolean {
+  return attemptsOf(progress).filter((a) => !a.correct).length > 1;
+}
+
 export function timesAnswered(progress?: QuestionProgress): number {
   return attemptsOf(progress).length;
 }

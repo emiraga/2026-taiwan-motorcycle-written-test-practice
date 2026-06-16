@@ -16,6 +16,7 @@ export const FILTER_OPTIONS: SelectOption<FilterMode>[] = [
   { value: "unanswered", label: "Unanswered questions" },
   { value: "lastIncorrect", label: "Last answer incorrect" },
   { value: "incorrectEver", label: "Answered incorrect at any time" },
+  { value: "incorrectMultiple", label: "Answered incorrect multiple times" },
   { value: "srsDue", label: "Due for review (spaced repetition)" },
 ];
 

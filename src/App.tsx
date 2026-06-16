@@ -15,6 +15,7 @@ import {
   lastThreeAllCorrect,
   timesAnswered,
   wasEverIncorrect,
+  wasIncorrectMultipleTimes,
 } from "@/lib/progress";
 import { isSrsDue, srsUrgency } from "@/lib/srs";
 import { useProgress } from "@/hooks/useProgress";
@@ -218,6 +219,8 @@ function App() {
           return isLastIncorrect(p);
         case "incorrectEver":
           return wasEverIncorrect(p);
+        case "incorrectMultiple":
+          return wasIncorrectMultipleTimes(p);
         case "srsDue":
           return isSrsDue(p, now);
         default:
