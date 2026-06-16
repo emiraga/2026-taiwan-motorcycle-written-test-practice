@@ -16,9 +16,10 @@ interface QuestionCardProps {
   question: Question;
   progress?: QuestionProgress;
   /**
-   * "Study only" mode: reveal the correct answer immediately and hide all
+   * "Study only" mode: reveal the correct answer immediately and hide the
    * interactive/progress elements (answer buttons, "I don't know", result
-   * feedback, AI-explain links, attempt history, and status badges).
+   * feedback, attempt history, and status badges). The AI-explain links stay
+   * visible so the correct answer can still be explained.
    */
   studyOnly?: boolean;
   onAnswer: (answer: AnswerValue, correct: boolean) => void;
@@ -386,7 +387,7 @@ export function QuestionCard({
         })}
       </div>
 
-      {!studyOnly && revealed && (
+      {(studyOnly || revealed) && (
         <div className="mt-4 flex items-center gap-2">
           <span className="text-xs font-medium text-gray-400">
             Explain with AI:
