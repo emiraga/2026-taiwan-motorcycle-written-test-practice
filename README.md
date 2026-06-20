@@ -1,36 +1,16 @@
-# React + TypeScript + Vite + Tailwind
+Official link of the practice test is https://www.mvdis.gov.tw/m3-simulator-drv/index you should practice that version too as this might repository be out of date. (last updated June 2026) however with this repo, you can move a bit faster and have a record of your correct/incorrect answers.
 
-This template provides a minimal setup to get React working in Vite, TypeScript, and Tailwind.
+English materials are available at: https://www.thb.gov.tw/en/News_Download.aspx?n=12579&sms=12831 and also here https://www.thb.gov.tw/News_Download.aspx?n=82&sms=12823&page=1&PageSize=500 (search for 英文)
 
-## Getting Started 🚀
+Note: Yes/No questions are abandoned as of 2026, you don't need to practice Yes/No questions.
+
+IMPORTANT NOTE!!!
+I did not add questions from "Situational/Contextual questions", you should read them from PDF yourself. You can find them under name "機車情境題(新)-英文" and "機車情境式題目-英文" on this page https://www.thb.gov.tw/News_Download.aspx?n=82&sms=12823&page=1&PageSize=500
+
+## How to use it locally?
+
+Manual step, under "public/videos" you can put videos from here https://reurl.cc/M4zqRm to have them play locally
 
 1. Clone the repo.
 2. Install dependencies: `pnpm install`
 3. Start the dev server: `pnpm dev`
-
-### Or
-
-[![Deploy with Vercel](https://vercel.com/button)](https://vercel.com/new/clone?repository-url=https%3A%2F%2Fgithub.com%2Fmoinulmoin%2Fvite-react-tailwind-starter)
-
-## Expanding the ESLint configuration
-
-If you are developing a production application, we recommend updating the configuration to enable type aware lint rules:
-
-- Configure the top-level `parserOptions` property like this:
-
-```js
-   parserOptions: {
-    ecmaVersion: 'latest',
-    sourceType: 'module',
-    project: ['./tsconfig.json', './tsconfig.node.json'],
-    tsconfigRootDir: __dirname,
-   },
-```
-
-- Replace `plugin:@typescript-eslint/recommended` to `plugin:@typescript-eslint/recommended-type-checked` or `plugin:@typescript-eslint/strict-type-checked`
-- Optionally add `plugin:@typescript-eslint/stylistic-type-checked`
-- Install [eslint-plugin-react](https://github.com/jsx-eslint/eslint-plugin-react) and add `plugin:react/recommended` & `plugin:react/jsx-runtime` to the `extends` list
-
-## License 📄
-
-[MIT License](https://github.com/moinulmoin/vite-react-tailwind-starter/blob/master/LICENSE)
