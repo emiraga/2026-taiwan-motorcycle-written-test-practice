@@ -43,6 +43,7 @@ import {
 } from "@/lib/storage";
 import { BANKS } from "@/lib/banks";
 import { cn } from "@/lib/utils";
+import { assetUrl } from "@/lib/assets";
 import { syncBank } from "@/lib/sync";
 import { Controls } from "@/components/Controls";
 import { QuestionCard } from "@/components/QuestionCard";
@@ -174,7 +175,7 @@ function App() {
 
   useEffect(() => {
     let cancelled = false;
-    fetch(`/${bank}.json`)
+    fetch(assetUrl(`${bank}.json`))
       .then((res) => {
         if (!res.ok) {
           throw new Error(`Failed to load question bank: HTTP ${res.status}`);

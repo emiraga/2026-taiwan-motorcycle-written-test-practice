@@ -2,6 +2,7 @@ import { useEffect, useRef, useState, type ReactNode } from "react";
 
 import type { AnswerValue, Question, QuestionProgress } from "@/types";
 import { cn } from "@/lib/utils";
+import { assetUrl } from "@/lib/assets";
 import {
   attemptsOf,
   isUnanswered,
@@ -288,7 +289,7 @@ export function QuestionCard({
       {question.pictures?.map((pic) => (
         <img
           key={pic}
-          src={`/${pic}`}
+          src={assetUrl(pic)}
           alt={`Illustration for question ${question.number}`}
           loading="lazy"
           className="mb-3 max-h-64 rounded-lg border border-gray-100 object-contain"
@@ -298,7 +299,7 @@ export function QuestionCard({
       {question.video_file && !videoFileFailed && (
         <video
           key={question.video_file}
-          src={`/${question.video_file}`}
+          src={assetUrl(question.video_file)}
           controls
           autoPlay
           loop
