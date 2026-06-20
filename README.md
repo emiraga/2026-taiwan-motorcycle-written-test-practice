@@ -9,7 +9,7 @@ I did not add questions from "Situational/Contextual questions", you should read
 
 ## How to use it locally?
 
-Manual step, under "public/videos" you can put videos from here https://reurl.cc/M4zqRm to have them play locally
+Manual step, under "public/videos" you can put videos from here https://reurl.cc/M4zqRm to have them play locally. For example one file should be in the path "public/videos/4142.mp4"
 
 1. Clone the repo.
 2. Install dependencies: `pnpm install`

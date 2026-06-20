@@ -7,6 +7,9 @@ const __dirname = path.dirname(fileURLToPath(import.meta.url));
 
 // https://vitejs.dev/config/
 export default defineConfig({
+  // Use relative asset paths so the build can be served from any subfolder
+  // (e.g. https://emira.ga/widgets/.../) instead of only the domain root.
+  base: "./",
   server: {
     port: 5176,
     strictPort: true,
