@@ -1,3 +1,9 @@
+See this online: https://emira.ga/widgets/2026-06-20-taiwan-motorcycle-written-test-practice/
+
+Blog post: https://emira.ga/2026-06-20-2026-Taiwan-Motorcycle-practice-exam-questions-(spaced-repetition-software)
+
+## Important notes
+
 Official link of the practice test is https://www.mvdis.gov.tw/m3-simulator-drv/index you should practice that version too as this might repository be out of date. (last updated June 2026) however with this repo, you can move a bit faster and have a record of your correct/incorrect answers.
 
 English materials are available at: https://www.thb.gov.tw/en/News_Download.aspx?n=12579&sms=12831 and also here https://www.thb.gov.tw/News_Download.aspx?n=82&sms=12823&page=1&PageSize=500 (search for 英文)
